@@ -126,7 +126,7 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-b from-stone-50 to-amber-50 text-stone-800 font-sans">
       <Head>
         <title>Rosie Learning Systems | Autonomous Crypto Intelligence</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/rosie-pixel.png" />
       </Head>
 
       {/* Progress Bar */}
