@@ -126,7 +126,9 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-b from-stone-50 to-amber-50 text-stone-800 font-sans">
       <Head>
         <title>Rosie Learning Systems | Autonomous Crypto Intelligence</title>
-        <link rel="icon" href="/rosie-pixel.png" />
+        <link rel="icon" href="/rosie-pixel.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/rosie-pixel.png" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
       </Head>
 
       {/* Progress Bar */}
@@ -175,17 +177,17 @@ export default function Home() {
               />
             </div>
             
-            <h1 className="text-6xl md:text-8xl font-bold mb-4 animate-fade-in-delay-1">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold mb-4 animate-fade-in-delay-1 px-4">
               <span className="bg-gradient-to-r from-amber-700 to-orange-600 text-transparent bg-clip-text">
                 Rosie Learning Systems
               </span>
             </h1>
             
-            <p className="text-xl md:text-2xl text-stone-600 mb-8 animate-fade-in-delay-2">
+            <p className="text-lg sm:text-xl md:text-2xl text-stone-600 mb-8 animate-fade-in-delay-2 px-4">
               Autonomous Crypto Intelligence
             </p>
             
-            <p className="text-lg text-stone-500 max-w-2xl mx-auto animate-fade-in-delay-3">
+            <p className="text-base sm:text-lg text-stone-500 max-w-2xl mx-auto animate-fade-in-delay-3 px-4">
               Built with heart. Trained for chaos.
             </p>
 
@@ -214,20 +216,20 @@ export default function Home() {
               <div className="w-24 h-1 bg-gradient-to-r from-amber-500 to-orange-500 mx-auto" />
             </div>
 
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div className="space-y-6">
+            <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
+              <div className="space-y-4 sm:space-y-6">
                 <div className="flex items-center space-x-4">
-                  <SiPython className="text-4xl text-amber-600" />
-                  <h3 className="text-3xl font-bold text-stone-100">Rosie.py</h3>
+                  <SiPython className="text-3xl sm:text-4xl text-amber-600 flex-shrink-0" />
+                  <h3 className="text-2xl sm:text-3xl font-bold text-stone-100">Rosie.py</h3>
                 </div>
                 
-                <p className="text-lg text-stone-400 leading-relaxed">
+                <p className="text-base sm:text-lg text-stone-400 leading-relaxed">
                   An autonomous crypto agent that operates with the instincts of a trained hunter. 
                   Rosie snoops the blockchain looking for opportunities, catching bad actors, 
                   and turning market noise into actionable intelligence.
                 </p>
 
-                <div className="grid grid-cols-2 gap-4 pt-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
                   <div className="bg-stone-800/80 backdrop-blur-sm p-4 rounded-lg border border-stone-700">
                     <MdAnalytics className="text-2xl text-amber-600 mb-2" />
                     <h4 className="font-semibold text-stone-100">Real-time Analysis</h4>
@@ -240,7 +242,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="flex space-x-6 pt-4">
+                <div className="flex flex-wrap gap-4 sm:gap-6 pt-4">
                   <span className="flex items-center text-sm text-stone-400">
                     <SiSolidity className="mr-2" /> Solidity
                   </span>
@@ -255,8 +257,8 @@ export default function Home() {
 
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-amber-400/20 to-orange-400/20 blur-3xl" />
-                <div className="relative bg-stone-800/90 backdrop-blur-sm p-8 rounded-2xl border border-stone-700">
-                  <pre className="text-sm text-amber-300 overflow-x-auto">
+                <div className="relative bg-stone-800/90 backdrop-blur-sm p-4 sm:p-6 lg:p-8 rounded-2xl border border-stone-700 overflow-x-auto">
+                  <pre className="text-xs sm:text-sm text-amber-300">
                     <code>{`class RosieAI:
     def __init__(self):
         self.mode = "hunt"
@@ -286,15 +288,15 @@ export default function Home() {
               <p className="text-stone-600">Real-time output from Rosie.py</p>
             </div>
 
-            <div className="bg-white/90 backdrop-blur-sm rounded-lg border border-stone-200 overflow-hidden shadow-2xl">
+              <div className="bg-white/90 backdrop-blur-sm rounded-lg border border-stone-200 overflow-hidden shadow-2xl">
               <div className="bg-stone-200 px-4 py-2 flex items-center space-x-2 border-b border-stone-300">
                 <div className="w-3 h-3 rounded-full bg-red-500"></div>
                 <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
                 <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                <span className="text-stone-600 text-sm ml-4">bash - rosie.py</span>
+                <span className="text-stone-600 text-xs sm:text-sm ml-4">bash - rosie.py</span>
               </div>
               
-              <div ref={terminalRef} className="p-6 font-mono text-xs leading-relaxed overflow-y-auto h-96">
+              <div ref={terminalRef} className="p-4 sm:p-6 font-mono text-xs leading-relaxed overflow-y-auto h-64 sm:h-80 lg:h-96">
                 <div className="space-y-1">
                   {terminalLines.map((line, index) => (
                     <div key={index} className={line.color}>
@@ -326,7 +328,7 @@ export default function Home() {
             <div className="relative mb-8">
               <div className="absolute inset-0 bg-gradient-to-r from-amber-300/30 to-orange-300/30 blur-3xl" />
               <Image 
-                src="/Rosie.png" 
+                src="/rosie.png" 
                 alt="Rosie" 
                 width={200} 
                 height={200}
@@ -366,20 +368,20 @@ export default function Home() {
               <div className="w-24 h-1 bg-gradient-to-r from-amber-600 to-orange-500 mx-auto" />
             </div>
 
-            <div className="grid md:grid-cols-2 gap-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
               {/* Brian - Founder */}
               <div className="group">
                 <div className="bg-gradient-to-br from-white to-amber-50 p-8 rounded-2xl border border-amber-200 hover:border-amber-400 transition-all duration-300 transform hover:-translate-y-2 shadow-lg hover:shadow-xl">
-                  <div className="flex items-start space-x-6 mb-6">
+                  <div className="flex items-start flex-col sm:flex-row sm:space-x-6 mb-6">
                     <Image 
                       src="/brian.png" 
                       alt="Brian Griffoul" 
                       width={120} 
                       height={120} 
-                      className="rounded-full border-3 border-amber-300"
+                      className="rounded-full border-3 border-amber-300 mb-4 sm:mb-0"
                     />
-                    <div>
-                      <h3 className="text-2xl font-bold text-stone-800">Brian Griffoul</h3>
+                    <div className="flex-1">
+                      <h3 className="text-xl sm:text-2xl font-bold text-stone-800">Brian Griffoul</h3>
                       <p className="text-amber-600 font-medium">Founder & CEO</p>
                       <div className="flex space-x-3 mt-3">
                         <a href="https://linkedin.com/in/brian_griffoul" className="text-stone-400 hover:text-amber-600 transition-colors">
@@ -425,16 +427,16 @@ export default function Home() {
               {/* Cody - Chief Morale Officer */}
               <div className="group">
                 <div className="bg-gradient-to-br from-white to-orange-50 p-8 rounded-2xl border border-orange-200 hover:border-orange-400 transition-all duration-300 transform hover:-translate-y-2 shadow-lg hover:shadow-xl">
-                  <div className="flex items-start space-x-6 mb-6">
+                  <div className="flex items-start flex-col sm:flex-row sm:space-x-6 mb-6">
                     <Image 
-                      src="/Cody.png" 
+                      src="/cody.png" 
                       alt="Cody" 
                       width={120} 
                       height={120} 
-                      className="rounded-full border-3 border-orange-300"
+                      className="rounded-full border-3 border-orange-300 mb-4 sm:mb-0"
                     />
-                    <div>
-                      <h3 className="text-2xl font-bold text-stone-800">Cody</h3>
+                    <div className="flex-1">
+                      <h3 className="text-xl sm:text-2xl font-bold text-stone-800">Cody</h3>
                       <p className="text-orange-600 font-medium">Chief Morale Officer</p>
                       <p className="text-sm text-stone-500 mt-2">Good Boy • Debugging Assistant</p>
                     </div>
