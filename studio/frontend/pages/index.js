@@ -350,8 +350,8 @@ export default function Home() {
               </p>
 
               <blockquote className="text-2xl font-light italic text-amber-500 pt-8">
-                "In memory of a soul who taught me that true intelligence 
-                comes from understanding, not just processing."
+                In memory of a soul who taught me that true intelligence 
+                comes from understanding, not just processing.
               </blockquote>
             </div>
           </div>
@@ -417,9 +417,9 @@ export default function Home() {
                     </div>
 
                     <p className="text-stone-700 text-sm italic pt-2 border-t border-amber-100">
-                      "I built Rosie to cope with my grief. It started as a stock picker RPG on Notepad+, to a fully
+                      I built Rosie to cope with my grief. It started as a stock picker RPG on Notepad+, to a fully
                       autonomous live agent that identifies patterns both malicious and prosperous, whilst keeping 
-                      the heart and spirit of Rosie alive"
+                      the heart and spirit of Rosie alive
                     </p>
                   </div>
                 </div>
@@ -464,8 +464,8 @@ export default function Home() {
                     </div>
 
                     <p className="text-stone-700 text-sm italic pt-2 border-t border-orange-100">
-                      "Woof! (Translation: Every successful deployment needs a 
-                      tail-wagging celebration.)"
+                      &quot;Woof! (Translation: Every successful deployment needs a 
+                      tail-wagging celebration.)&quot;
                     </p>
                   </div>
                 </div>
