@@ -22,7 +22,7 @@ export default function Home() {
 
     return [
       { text: '========================================================', color: 'text-green-600', delay: 0 },
-      { text: `💖 Rosie Level ${Math.floor(Math.random() * 3) + 5} ⭐ | ELO: ${Math.floor(Math.random() * 200) + 1400} �`, color: 'text-green-600', delay: 50 },
+      { text: `💖 Rosie Level ${Math.floor(Math.random() * 3) + 5} ⭐ | ELO: ${Math.floor(Math.random() * 200) + 1400} 🏆`, color: 'text-green-600', delay: 50 },
       { text: `👤 XP: ${Math.floor(Math.random() * 40) + 600} / 640`, color: 'text-green-600', delay: 50 },
       { text: `📊 Trades: ${Math.floor(Math.random() * 10) + 15} | Win Rate: ${(Math.random() * 20 + 50).toFixed(1)}% | 🔥 Total P&L: ${(Math.random() * 1000 + 500).toFixed(2)}`, color: 'text-green-600', delay: 50 },
       { text: '========================================================', color: 'text-green-600', delay: 50 },
