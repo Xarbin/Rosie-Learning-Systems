@@ -1,0 +1,46 @@
+# robots.txt for https://rosieai.dev
+# This file tells search engines which pages they can crawl
+
+# Allow all search engines to crawl the entire site
+User-agent: *
+Allow: /
+
+# Specific rules for major search engines to ensure proper indexing
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 0
+
+# Allow social media crawlers for link previews (helps with text message links)
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+User-agent: TelegramBot
+Allow: /
+
+# Allow other common crawlers
+User-agent: Slackbot
+Allow: /
+
+User-agent: Discord
+Allow: /
+
+# Sitemap location (create this file next)
+Sitemap: https://rosieai.dev/sitemap.xml
+
+# No directories to block, but here's how you would block sensitive areas:
+# Disallow: /admin/
+# Disallow: /private/
+# Disallow: /*.json$
