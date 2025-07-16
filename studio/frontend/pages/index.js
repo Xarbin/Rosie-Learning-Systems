@@ -326,7 +326,7 @@ export default function Home() {
             <div className="relative mb-8">
               <div className="absolute inset-0 bg-gradient-to-r from-amber-300/30 to-orange-300/30 blur-3xl" />
               <Image 
-                src="/rosie.png" 
+                src="/Rosie.png" 
                 alt="Rosie" 
                 width={200} 
                 height={200}
@@ -427,7 +427,7 @@ export default function Home() {
                 <div className="bg-gradient-to-br from-white to-orange-50 p-8 rounded-2xl border border-orange-200 hover:border-orange-400 transition-all duration-300 transform hover:-translate-y-2 shadow-lg hover:shadow-xl">
                   <div className="flex items-start space-x-6 mb-6">
                     <Image 
-                      src="/cody.png" 
+                      src="/Cody.png" 
                       alt="Cody" 
                       width={120} 
                       height={120} 
