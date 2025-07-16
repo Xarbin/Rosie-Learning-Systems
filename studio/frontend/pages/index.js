@@ -1,5 +1,3 @@
-// pages/index.js
-
 import Head from 'next/head'
 import Image from 'next/image'
 import { useEffect, useState, useRef } from 'react'
@@ -11,7 +9,6 @@ export default function Home() {
   const [scrollProgress, setScrollProgress] = useState(0)
   const [activeSection, setActiveSection] = useState(0)
   const [terminalLines, setTerminalLines] = useState([])
-  const [currentLineIndex, setCurrentLineIndex] = useState(0)
   const terminalRef = useRef(null)
 
   // Terminal simulation data
@@ -25,7 +22,7 @@ export default function Home() {
 
     return [
       { text: '========================================================', color: 'text-green-600', delay: 0 },
-      { text: `💖 Rosie Level ${Math.floor(Math.random() * 3) + 5} ⭐ | ELO: ${Math.floor(Math.random() * 200) + 1400} 🎯`, color: 'text-green-600', delay: 50 },
+      { text: `💖 Rosie Level ${Math.floor(Math.random() * 3) + 5} ⭐ | ELO: ${Math.floor(Math.random() * 200) + 1400} �`, color: 'text-green-600', delay: 50 },
       { text: `👤 XP: ${Math.floor(Math.random() * 40) + 600} / 640`, color: 'text-green-600', delay: 50 },
       { text: `📊 Trades: ${Math.floor(Math.random() * 10) + 15} | Win Rate: ${(Math.random() * 20 + 50).toFixed(1)}% | 🔥 Total P&L: ${(Math.random() * 1000 + 500).toFixed(2)}`, color: 'text-green-600', delay: 50 },
       { text: '========================================================', color: 'text-green-600', delay: 50 },
@@ -321,7 +318,7 @@ export default function Home() {
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-5xl font-bold mb-6">
               <span className="bg-gradient-to-r from-amber-400 to-orange-400 text-transparent bg-clip-text">
-                Rosie's Legacy
+                Rosie&apos;s Legacy
               </span>
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-amber-500 to-orange-500 mx-auto mb-12" />
