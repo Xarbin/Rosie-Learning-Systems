@@ -22,84 +22,80 @@ export default function Home() {
     const randomPnL = (Math.random() * 50 - 10).toFixed(2)
     const randomLockPercent = (Math.random() * 100).toFixed(2)
     const timestamp = new Date().toISOString().replace('T', ' ').substr(0, 19)
-    
+
     return [
-      { text: '========================================================', color: 'text-green-400', delay: 0 },
-      { text: `💖 Rosie Level ${Math.floor(Math.random() * 3) + 5} ⭐ | ELO: ${Math.floor(Math.random() * 200) + 1400} 🎯`, color: 'text-green-400', delay: 50 },
-      { text: `👤 XP: ${Math.floor(Math.random() * 40) + 600} / 640`, color: 'text-green-400', delay: 50 },
-      { text: `📊 Trades: ${Math.floor(Math.random() * 10) + 15} | Win Rate: ${(Math.random() * 20 + 50).toFixed(1)}% | 🔥 Total P&L: ${(Math.random() * 1000 + 500).toFixed(2)}`, color: 'text-green-400', delay: 50 },
-      { text: '========================================================', color: 'text-green-400', delay: 50 },
-      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - 🔍 Running pre-flight checks...`, color: 'text-stone-400', delay: 100 },
-      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - 📋 Fetching historical context for ${randomToken}...`, color: 'text-stone-400', delay: 200 },
-      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - DataFetcher initialized.`, color: 'text-stone-400', delay: 100 },
-      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - Found primary pair ${randomAddress.substr(0, 10)}...${randomAddress.substr(-6)}`, color: 'text-stone-400', delay: 300 },
+      { text: '========================================================', color: 'text-green-600', delay: 0 },
+      { text: `💖 Rosie Level ${Math.floor(Math.random() * 3) + 5} ⭐ | ELO: ${Math.floor(Math.random() * 200) + 1400} 🎯`, color: 'text-green-600', delay: 50 },
+      { text: `👤 XP: ${Math.floor(Math.random() * 40) + 600} / 640`, color: 'text-green-600', delay: 50 },
+      { text: `📊 Trades: ${Math.floor(Math.random() * 10) + 15} | Win Rate: ${(Math.random() * 20 + 50).toFixed(1)}% | 🔥 Total P&L: ${(Math.random() * 1000 + 500).toFixed(2)}`, color: 'text-green-600', delay: 50 },
+      { text: '========================================================', color: 'text-green-600', delay: 50 },
+      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - 🔍 Running pre-flight checks...`, color: 'text-stone-700', delay: 100 },
+      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - 📋 Fetching historical context for ${randomToken}...`, color: 'text-stone-700', delay: 200 },
+      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - DataFetcher initialized.`, color: 'text-stone-700', delay: 100 },
+      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - Found primary pair ${randomAddress.substr(0, 10)}...${randomAddress.substr(-6)}`, color: 'text-stone-700', delay: 300 },
       { text: `${timestamp} - [TELEGRAM_MONITOR] - [WARNING] - Partially Constructed candle data available. Proceeding with live data.`, color: 'text-yellow-400', delay: 200 },
-      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - 🔐 Analyzing BSC token security...`, color: 'text-stone-400', delay: 150 },
-      { text: `${timestamp} - [TELEGRAM_MONITOR] - [WARNING] - ⚠️ LIQUIDITY WARNING: Only ${randomLockPercent}% of LP tokens locked.`, color: 'text-orange-400', delay: 400 },
-      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - Security analysis complete.`, color: 'text-stone-400', delay: 200 },
-      Math.random() > 0.5 
+      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - 🔐 Analyzing BSC token security...`, color: 'text-stone-700', delay: 150 },
+      { text: `${timestamp} - [TELEGRAM_MONITOR] - [WARNING] - ⚠️ LIQUIDITY WARNING: Only ${randomLockPercent}% of LP tokens locked.`, color: 'text-orange-600', delay: 400 },
+      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - Security analysis complete.`, color: 'text-stone-700', delay: 200 },
+      Math.random() > 0.5
         ? { text: `${timestamp} - [TELEGRAM_MONITOR] - [WARNING] - 🔒 YOLO MODE ACTIVATED: Taking risky position!`, color: 'text-yellow-400', delay: 100 }
-        : { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - ✅ All security checks passed.`, color: 'text-green-400', delay: 100 },
-      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - 📄 Preparing PAPER trading session...`, color: 'text-stone-400', delay: 150 },
-      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - Virtual Wallet: $250.00 Trading | $50.00 Gas`, color: 'text-stone-400', delay: 100 },
-      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - Starting simulation...`, color: 'text-stone-400', delay: 200 },
-      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - ========================================`, color: 'text-stone-400', delay: 50 },
-      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - PAPER TRADING COMPLETE.`, color: 'text-stone-400', delay: 100 },
-      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - Initial Budget: $250.00`, color: 'text-stone-400', delay: 50 },
-      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - Final Value: ${(250 + parseFloat(randomPnL)).toFixed(2)}`, color: 'text-stone-400', delay: 50 },
-      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - Total PnL: ${randomPnL} (minus gas)`, color: parseFloat(randomPnL) > 0 ? 'text-green-400' : 'text-red-400', delay: 50 },
-      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - ========================================`, color: 'text-stone-400', delay: 50 },
-      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - Saving brain progress... 🧠`, color: 'text-stone-400', delay: 100 },
-      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - Brain saved successfully. 🧠`, color: 'text-green-400', delay: 200 },
+        : { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - ✅ All security checks passed.`, color: 'text-green-600', delay: 100 },
+      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - 📄 Preparing PAPER trading session...`, color: 'text-stone-700', delay: 150 },
+      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - Virtual Wallet: $250.00 Trading | $50.00 Gas`, color: 'text-stone-700', delay: 100 },
+      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - Starting simulation...`, color: 'text-stone-700', delay: 200 },
+      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - ========================================`, color: 'text-stone-700', delay: 50 },
+      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - PAPER TRADING COMPLETE.`, color: 'text-stone-700', delay: 100 },
+      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - Initial Budget: $250.00`, color: 'text-stone-700', delay: 50 },
+      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - Final Value: ${(250 + parseFloat(randomPnL)).toFixed(2)}`, color: 'text-stone-700', delay: 50 },
+      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - Total PnL: ${randomPnL} (minus gas)`, color: parseFloat(randomPnL) > 0 ? 'text-green-600' : 'text-red-600', delay: 50 },
+      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - ========================================`, color: 'text-stone-700', delay: 50 },
+      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - Saving brain progress... 🧠`, color: 'text-stone-700', delay: 100 },
+      { text: `${timestamp} - [TELEGRAM_MONITOR] - [INFO] - Brain saved successfully. 🧠`, color: 'text-green-600', delay: 200 },
     ]
   }
 
   // Initialize terminal
   useEffect(() => {
     let timeoutIds = []
-    
-    const generateSequence = () => {
-      const tokens = ['PEPE', 'SHIB', 'DOGE', 'FLOKI', 'ELON', 'MOON', 'ROCKET', 'WAGMI', 'GME', 'APE']
-      const randomToken = tokens[Math.floor(Math.random() * tokens.length)]
-      const randomAddress = '0x' + Math.random().toString(16).substr(2, 40)
-      const randomPnL = (Math.random() * 50 - 10).toFixed(2)
-      const randomLockPercent = (Math.random() * 100).toFixed(2)
-      const timestamp = new Date().toISOString().replace('T', ' ').substr(0, 19)
-      
-      return generateTerminalSequence()
-    }
+    let isActive = true
     
     const runSequence = () => {
-      const sequence = generateSequence()
+      if (!isActive) return
+      
+      const sequence = generateTerminalSequence()
       setTerminalLines([])
-      let delay = 0
+      let cumulativeDelay = 0
       
       sequence.forEach((line, index) => {
-        delay += line.delay
+        cumulativeDelay += line.delay
         const timeoutId = setTimeout(() => {
-          setTerminalLines(prev => [...prev, line])
-          
-          // Auto-scroll terminal
-          if (terminalRef.current) {
-            terminalRef.current.scrollTop = terminalRef.current.scrollHeight
+          if (isActive) {
+            setTerminalLines(prev => [...prev, line])
+            
+            // Auto-scroll terminal
+            if (terminalRef.current) {
+              terminalRef.current.scrollTop = terminalRef.current.scrollHeight
+            }
+            
+            // If this is the last line, wait then restart
+            if (index === sequence.length - 1) {
+              const restartTimeout = setTimeout(() => {
+                if (isActive) runSequence()
+              }, 3000)
+              timeoutIds.push(restartTimeout)
+            }
           }
-          
-          // If this is the last line, wait then restart
-          if (index === sequence.length - 1) {
-            const restartTimeout = setTimeout(() => {
-              runSequence()
-            }, 3000)
-            timeoutIds.push(restartTimeout)
-          }
-        }, delay)
+        }, cumulativeDelay)
         timeoutIds.push(timeoutId)
       })
     }
     
+    // Start the sequence
     runSequence()
     
-    // Cleanup timeouts on unmount
+    // Cleanup function
     return () => {
+      isActive = false
       timeoutIds.forEach(id => clearTimeout(id))
     }
   }, [])
@@ -210,51 +206,51 @@ export default function Home() {
         </section>
 
         {/* Product Section */}
-        <section id="product" className="min-h-screen flex items-center justify-center py-20 px-6 bg-gradient-to-b from-amber-50 to-stone-50">
+        <section id="product" className="min-h-screen flex items-center justify-center py-20 px-6 bg-gradient-to-b from-stone-900 to-stone-800">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-5xl font-bold mb-6">
-                <span className="bg-gradient-to-r from-amber-700 to-orange-600 text-transparent bg-clip-text">
+                <span className="bg-gradient-to-r from-amber-400 to-orange-400 text-transparent bg-clip-text">
                   Principal Product
                 </span>
               </h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-amber-600 to-orange-500 mx-auto" />
+              <div className="w-24 h-1 bg-gradient-to-r from-amber-500 to-orange-500 mx-auto" />
             </div>
 
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div className="space-y-6">
                 <div className="flex items-center space-x-4">
                   <SiPython className="text-4xl text-amber-600" />
-                  <h3 className="text-3xl font-bold text-stone-800">Rosie.py</h3>
+                  <h3 className="text-3xl font-bold text-stone-100">Rosie.py</h3>
                 </div>
                 
-                <p className="text-lg text-stone-600 leading-relaxed">
+                <p className="text-lg text-stone-400 leading-relaxed">
                   An autonomous crypto agent that operates with the instincts of a trained hunter. 
                   Rosie snoops the blockchain looking for opportunities, catching bad actors, 
                   and turning market noise into actionable intelligence.
                 </p>
 
                 <div className="grid grid-cols-2 gap-4 pt-4">
-                  <div className="bg-white/70 backdrop-blur-sm p-4 rounded-lg border border-amber-200">
+                  <div className="bg-stone-800/80 backdrop-blur-sm p-4 rounded-lg border border-stone-700">
                     <MdAnalytics className="text-2xl text-amber-600 mb-2" />
-                    <h4 className="font-semibold text-stone-800">Real-time Analysis</h4>
-                    <p className="text-sm text-stone-600">24/7 blockchain monitoring</p>
+                    <h4 className="font-semibold text-stone-100">Real-time Analysis</h4>
+                    <p className="text-sm text-stone-400">24/7 blockchain monitoring</p>
                   </div>
-                  <div className="bg-white/70 backdrop-blur-sm p-4 rounded-lg border border-amber-200">
+                  <div className="bg-stone-800/80 backdrop-blur-sm p-4 rounded-lg border border-stone-700">
                     <MdSecurity className="text-2xl text-amber-600 mb-2" />
-                    <h4 className="font-semibold text-stone-800">Threat Detection</h4>
-                    <p className="text-sm text-stone-600">Advanced pattern recognition</p>
+                    <h4 className="font-semibold text-stone-100">Threat Detection</h4>
+                    <p className="text-sm text-stone-400">Advanced pattern recognition</p>
                   </div>
                 </div>
 
                 <div className="flex space-x-6 pt-4">
-                  <span className="flex items-center text-sm text-stone-600">
+                  <span className="flex items-center text-sm text-stone-400">
                     <SiSolidity className="mr-2" /> Solidity
                   </span>
-                  <span className="flex items-center text-sm text-stone-600">
+                  <span className="flex items-center text-sm text-stone-400">
                     <SiJavascript className="mr-2" /> JavaScript
                   </span>
-                  <span className="flex items-center text-sm text-stone-600">
+                  <span className="flex items-center text-sm text-stone-400">
                     <SiReact className="mr-2" /> React
                   </span>
                 </div>
@@ -282,71 +278,38 @@ export default function Home() {
         </section>
 
         {/* Terminal Output Section */}
-        <section id="terminal" className="min-h-screen flex items-center justify-center py-20 px-6 bg-stone-900">
+        <section id="terminal" className="min-h-screen flex items-center justify-center py-20 px-6 bg-gradient-to-b from-stone-50 to-amber-50">
           <div className="max-w-6xl mx-auto w-full">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold mb-4">
-                <span className="bg-gradient-to-r from-amber-400 to-orange-400 text-transparent bg-clip-text">
+                <span className="bg-gradient-to-r from-amber-700 to-orange-600 text-transparent bg-clip-text">
                   Live Trading Session
                 </span>
               </h2>
-              <p className="text-amber-200/80">Real-time output from Rosie.py</p>
+              <p className="text-stone-600">Real-time output from Rosie.py</p>
             </div>
 
-            <div className="bg-black rounded-lg border border-stone-700 overflow-hidden shadow-2xl">
-              <div className="bg-stone-800 px-4 py-2 flex items-center space-x-2">
+            <div className="bg-white/90 backdrop-blur-sm rounded-lg border border-stone-200 overflow-hidden shadow-2xl">
+              <div className="bg-stone-200 px-4 py-2 flex items-center space-x-2 border-b border-stone-300">
                 <div className="w-3 h-3 rounded-full bg-red-500"></div>
                 <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
                 <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                <span className="text-stone-400 text-sm ml-4">PowerShell - rosie.py</span>
+                <span className="text-stone-600 text-sm ml-4">bash - rosie.py</span>
               </div>
               
-              <div className="p-6 font-mono text-sm leading-relaxed overflow-x-auto">
-                <pre className="text-green-400">
-{`========================================================
-💖 Rosie Level 5 ⭐ | ELO: 1451 🎯
-👤 XP: 613 / 640
-📊 Trades: 18 | Win Rate: 56.7% | 🔥 Total P&L: $766.53
-========================================================`}
-                </pre>
-                
-                <div className="space-y-1 text-xs">
-                  <div className="text-stone-400">2025-07-08 09:24:41,315 - [TELEGRAM_MONITOR] - [INFO] - 🔍 Running pre-flight checks...</div>
-                  <div className="text-stone-400">2025-07-08 09:24:41,315 - [TELEGRAM_MONITOR] - [INFO] - 📋 Fetching historical context for bady$OUT...</div>
-                  <div className="text-stone-400">2025-07-08 09:24:41,316 - [TELEGRAM_MONITOR] - [INFO] - DataFetcher initialized.</div>
-                  <div className="text-stone-400">2025-07-08 09:24:41,461 - [TELEGRAM_MONITOR] - [INFO] - Found primary pair 0xxxxxx9F0abd9D5575F776c34d1a8D3B36662601B35 for bady$OUT. Fetching price history...</div>
-                  <div className="text-yellow-400">2025-07-08 09:24:41,630 - [TELEGRAM_MONITOR] - [WARNING] - Partially Constructed candle data available (BSC-Alchemy). Proceeding with live data + Historical Data.</div>
-                  <div className="text-stone-400">2025-07-08 09:24:41,631 - [TELEGRAM_MONITOR] - [INFO] - Creating minimal history from live price data.</div>
-                  <div className="text-stone-400">2025-07-08 09:24:41,631 - [TELEGRAM_MONITOR] - [INFO] - 🔐 Analyzing BSC token security for 0xxxxxx553e5D3D3E1b2c3280AeC520ADA14314326...</div>
-                  <div className="text-yellow-400">2025-07-08 09:24:42,111 - [TELEGRAM_MONITOR] - [WARNING] - Could not estimate sell tax for 0xxxaa553e5D3D3E1b2c3280AeC520ADA14314326: execution reverted: TransferHelper</div>
-                  <div className="text-stone-400">2025-07-08 09:24:42,112 - [TELEGRAM_MONITOR] - [INFO] - Security analysis complete for 0xxxxxx553e5D3D3E1b2c3280AeC520ADA14314326: Could not simulate a sale. Potentially</div>
-                  <div className="text-orange-400">2025-07-08 09:24:42,112 - [TELEGRAM_MONITOR] - [WARNING] - ⚠️ SECURITY WARNING: Could not simulate a sale. Potentially un-sellable, a honeypot, or liquidity issues</div>
-                  <div className="text-yellow-400">2025-07-08 09:24:42,112 - [TELEGRAM_MONITOR] - [WARNING] - 🔒 YOLO MODE ACTIVATED: Taking position despite risks for learning purposes!</div>
-                  <div className="text-stone-400">2025-07-08 09:24:42,697 - [TELEGRAM_MONITOR] - [INFO] - Liquidity Lock Report: LP Locked: 15.00%</div>
-                  <div className="text-orange-400">2025-07-08 09:24:42,697 - [TELEGRAM_MONITOR] - [WARNING] - ⚠️ LIQUIDITY WARNING: Only 15.00% of LP tokens are confirmed locked. Proceeding with caution.</div>
-                  <div className="text-stone-400">2025-07-08 09:24:42,697 - [TELEGRAM_MONITOR] - [INFO] - 🔍 Checking for evolving honeypot on 0xf18aa553e5D3D3E1b2c3280AeC520ADA14314326...</div>
-                  <div className="text-stone-400">2025-07-08 09:24:42,697 - [TELEGRAM_MONITOR] - [INFO] - Evolving Honeypot Report: No honeypot detected.</div>
-                  <div className="text-green-400">2025-07-08 09:24:42,697 - [TELEGRAM_MONITOR] - [INFO] - ✅ All pre-flight checks passed. Fair Address: 0xxxxx5575F776c34d1a8D3B36662601B35</div>
-                  <div className="text-stone-400">2025-07-08 09:24:42,697 - [TELEGRAM_MONITOR] - [INFO] - 📄 Preparing for a PAPER trading session.</div>
-                  <div className="text-stone-400">2025-07-08 09:24:42,698 - [TELEGRAM_MONITOR] - [INFO] - TradingSession base initialized for Dege.</div>
-                  <div className="text-stone-400">2025-07-08 09:24:42,698 - [TELEGRAM_MONITOR] - [INFO] - PaperTradingSession activated.</div>
-                  <div className="text-green-400">2025-07-08 09:24:42,698 - [TELEGRAM_MONITOR] - [INFO] - 🎯 YOLO MODE ENABLED - Will take risky positions for learning!</div>
-                  <div className="text-stone-400">2025-07-08 09:24:42,698 - [TELEGRAM_MONITOR] - [INFO] - Virtual Wallet Initialized: $250.00 Trading | $50.00 Gas</div>
-                  <div className="text-stone-400">2025-07-08 09:24:42,698 - [TELEGRAM_MONITOR] - [INFO] - Starting paper trading simulation for dege...</div>
-                  <div className="text-stone-400">2025-07-08 09:24:42,698 - [TELEGRAM_MONITOR] - [INFO] - ========================================</div>
-                  <div className="text-stone-400">2025-07-08 09:24:42,698 - [TELEGRAM_MONITOR] - [INFO] - PAPER TRADING COMPLETE.</div>
-                  <div className="text-stone-400">2025-07-08 09:24:42,698 - [TELEGRAM_MONITOR] - [INFO] - Initial Budget: $250.00</div>
-                  <div className="text-stone-400">2025-07-08 09:24:42,698 - [TELEGRAM_MONITOR] - [INFO] - Final Wallet Value: $263.10</div>
-                  <div className="text-stone-400">2025-07-08 09:24:42,699 - [TELEGRAM_MONITOR] - [INFO] - Total PnL: $12.63 (minus gas)</div>
-                  <div className="text-stone-400">2025-07-08 09:24:42,699 - [TELEGRAM_MONITOR] - [INFO] - ========================================</div>
-                  <div className="text-stone-400">2025-07-08 09:24:42,699 - [TELEGRAM_MONITOR] - [INFO] - Saving brain progress after simulation... 🧠</div>
-                  <div className="text-green-400">2025-07-08 09:24:42,704 - [TELEGRAM_MONITOR] - [INFO] - Brain saved successfully. 🧠</div>
+              <div ref={terminalRef} className="p-6 font-mono text-xs leading-relaxed overflow-y-auto h-96">
+                <div className="space-y-1">
+                  {terminalLines.map((line, index) => (
+                    <div key={index} className={line.color}>
+                      {line.text}
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
 
             <div className="text-center mt-8">
-              <p className="text-amber-200/60 text-sm">
+              <p className="text-stone-500 text-sm">
                 Rosie analyzes thousands of data points per second, making split-second decisions based on pattern recognition and market sentiment.
               </p>
             </div>
@@ -354,14 +317,14 @@ export default function Home() {
         </section>
 
         {/* Legacy Section */}
-        <section id="legacy" className="min-h-screen flex items-center justify-center py-20 px-6 bg-gradient-to-b from-stone-50 to-amber-50/50">
+        <section id="legacy" className="min-h-screen flex items-center justify-center py-20 px-6 bg-gradient-to-b from-stone-800 to-stone-900">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-5xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-amber-700 to-orange-600 text-transparent bg-clip-text">
+              <span className="bg-gradient-to-r from-amber-400 to-orange-400 text-transparent bg-clip-text">
                 Rosie's Legacy
               </span>
             </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-amber-600 to-orange-500 mx-auto mb-12" />
+            <div className="w-24 h-1 bg-gradient-to-r from-amber-500 to-orange-500 mx-auto mb-12" />
 
             <div className="relative mb-8">
               <div className="absolute inset-0 bg-gradient-to-r from-amber-300/30 to-orange-300/30 blur-3xl" />
@@ -369,24 +332,24 @@ export default function Home() {
                 src="/rosie.png" 
                 alt="Rosie" 
                 width={200} 
-                height={200} 
-                className="mx-auto rounded-full border-4 border-amber-200 relative z-10"
+                height={200}
+                className="mx-auto rounded-full border-4 border-amber-600/50 relative z-10"
               />
             </div>
 
             <div className="max-w-3xl mx-auto space-y-6">
-              <p className="text-xl text-stone-700 leading-relaxed">
+              <p className="text-xl text-stone-300 leading-relaxed">
                 Rosie was my rescue dog who saw through everything with unflinching clarity. 
                 No pretense, no hesitation — just pure presence and instinct.
               </p>
               
-              <p className="text-lg text-stone-600 leading-relaxed">
+              <p className="text-lg text-stone-400 leading-relaxed">
                 She taught me to be direct, to trust instincts, and to stay endlessly curious. 
                 I built Rosie AI to operate with the same principles: to learn from chaos, 
                 act with conviction, and evolve relentlessly.
               </p>
 
-              <blockquote className="text-2xl font-light italic text-amber-700 pt-8">
+              <blockquote className="text-2xl font-light italic text-amber-500 pt-8">
                 "In memory of a soul who taught me that true intelligence 
                 comes from understanding, not just processing."
               </blockquote>
@@ -394,7 +357,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Leadership Section */}
+        {/* employees */}
         <section id="leadership" className="min-h-screen py-20 px-6 bg-gradient-to-b from-amber-50/50 to-stone-50">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
@@ -422,13 +385,13 @@ export default function Home() {
                       <h3 className="text-2xl font-bold text-stone-800">Brian Griffoul</h3>
                       <p className="text-amber-600 font-medium">Founder & CEO</p>
                       <div className="flex space-x-3 mt-3">
-                        <a href="https://linkedin.com/in/YOUR_LINKEDIN" className="text-stone-400 hover:text-amber-600 transition-colors">
+                        <a href="https://linkedin.com/in/brian_griffoul" className="text-stone-400 hover:text-amber-600 transition-colors">
                           <FaLinkedin className="text-xl" />
                         </a>
-                        <a href="https://github.com/YOUR_GITHUB" className="text-stone-400 hover:text-amber-600 transition-colors">
+                        <a href="https://github.com/Xarbin" className="text-stone-400 hover:text-amber-600 transition-colors">
                           <FaGithub className="text-xl" />
                         </a>
-                        <a href="mailto:brian@rosielearning.com" className="text-stone-400 hover:text-amber-600 transition-colors">
+                        <a href="mailto:brian@rosieai.dev" className="text-stone-400 hover:text-amber-600 transition-colors">
                           <FaEnvelope className="text-xl" />
                         </a>
                       </div>
@@ -448,15 +411,15 @@ export default function Home() {
                       <h4 className="font-semibold text-amber-700 mb-2">Background</h4>
                       <ul className="text-sm text-stone-600 space-y-1">
                         <li>• US Army Infantry, OEF/OIR Combat Veteran</li>
-                        <li>• Self-taught developer: Visual Basic → Python → Web3</li>
-                        <li>• Building at the intersection of AI and blockchain</li>
+                        <li>• Visual Basic → Python → Web3 → 'begrudgingly' JavaScript </li>
+                        <li>• Building at the intersection of AI, market data and the chaotic blockchain</li>
                       </ul>
                     </div>
 
                     <p className="text-stone-700 text-sm italic pt-2 border-t border-amber-100">
-                      "I built Rosie to be a fast-learning, conviction-based trader using real-time 
-                      data and alpha-hunting logic. She's a reflection of systematic thinking, 
-                      curiosity, and continuous evolution."
+                      "I built Rosie to cope with my grief. It started as a stock picker RPG on Notepad+, to a fully
+                      autonomous live agent that identifies patterns both malicious and prosperous, whilst keeping 
+                      the heart and spirit of Rosie alive"
                     </p>
                   </div>
                 </div>
@@ -512,7 +475,7 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <footer className="bg-stone-100 border-t border-stone-200 py-12 px-6">
+        <footer className="bg-stone-900 border-t border-stone-800 py-12 px-6">
           <div className="max-w-4xl mx-auto text-center">
             <div className="mb-8">
               <Image 
@@ -525,25 +488,22 @@ export default function Home() {
             </div>
             
             <div className="flex justify-center space-x-6 mb-8">
-              <a href="https://telegram.com/YOUR_TELEGRAM" className="text-stone-400 hover:text-amber-600 transition-colors">
+              <a href="https://telegram.com/Xarbin" className="text-stone-500 hover:text-amber-500 transition-colors">
                 <FaTelegram className="text-2xl" />
               </a>
-              <a href="https://twitter.com/YOUR_TWITTER" className="text-stone-400 hover:text-amber-600 transition-colors">
-                <FaTwitter className="text-2xl" />
-              </a>
-              <a href="https://linkedin.com/in/YOUR_LINKEDIN" className="text-stone-400 hover:text-amber-600 transition-colors">
+              <a href="https://linkedin.com/in/brian_griffoul" className="text-stone-500 hover:text-amber-500 transition-colors">
                 <FaLinkedin className="text-2xl" />
               </a>
-              <a href="https://github.com/YOUR_GITHUB" className="text-stone-400 hover:text-amber-600 transition-colors">
+              <a href="https://github.com/Xarbin" className="text-stone-500 hover:text-amber-500 transition-colors">
                 <FaGithub className="text-2xl" />
               </a>
             </div>
 
-            <p className="text-stone-600 text-sm mb-4">
+            <p className="text-stone-400 text-sm mb-4">
               © 2024 Rosie Learning Systems LLC. All rights reserved.
             </p>
             
-            <p className="text-stone-500 text-xs">
+            <p className="text-stone-500 text-xs tracking-wider">
               Built with conviction. Deployed with purpose.
             </p>
           </div>
