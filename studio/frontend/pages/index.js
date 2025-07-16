@@ -411,7 +411,7 @@ export default function Home() {
                       <h4 className="font-semibold text-amber-700 mb-2">Background</h4>
                       <ul className="text-sm text-stone-600 space-y-1">
                         <li>• US Army Infantry, OEF/OIR Combat Veteran</li>
-                        <li>• Visual Basic → Python → Web3 → 'begrudgingly' JavaScript </li>
+                        <li>• Visual Basic → Python → Web3 → begrudgingly JavaScript </li>
                         <li>• Building at the intersection of AI, market data and the chaotic blockchain</li>
                       </ul>
                     </div>
