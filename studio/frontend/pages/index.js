@@ -349,7 +349,7 @@ def detect_threats(self, transaction):
               className="object-cover"
               priority
               placeholder="blur"
-              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aaAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
             />
           </div>
 
@@ -399,7 +399,7 @@ def detect_threats(self, transaction):
                   <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                   </svg>
-                  Read Rosie's Diary
+                  Read Rosie&apos;s Diary
                 </Link>
                 
                 <Link href="/blog" className="inline-flex items-center px-6 py-3 border-2 border-amber-600 text-amber-600 font-semibold rounded-lg hover:bg-amber-600 hover:text-white transition-all duration-300 transform hover:scale-105">
@@ -783,7 +783,7 @@ def detect_threats(self, transaction):
             <div className="text-center mb-12">
               <h2 className="text-3xl sm:text-4xl font-bold mb-4">
                 <span className="bg-gradient-to-r from-amber-700 to-orange-600 text-transparent bg-clip-text">
-                  Latest from Rosie's Diary
+                  Latest from Rosie&apos;s Diary
                 </span>
               </h2>
               <p className="text-stone-600 text-lg">Fresh insights from the blockchain jungle</p>
@@ -804,7 +804,7 @@ def detect_threats(self, transaction):
                   <span className="text-6xl">🦍</span>
                 </div>
                 <h3 className="text-2xl font-bold text-stone-800 mb-4">
-                  Rosie's Diary is Empty... For Now
+                  Rosie&apos;s Diary is Empty... For Now
                 </h3>
                 <p className="text-stone-600 mb-8 max-w-md mx-auto">
                   Rosie is still warming up her trading algorithms. Check back soon for savage market insights and trading wisdom!
@@ -915,7 +915,7 @@ def detect_threats(self, transaction):
                     {/* Feature Callout */}
                     <div className="bg-stone-100 rounded-lg p-6 text-center">
                       <p className="text-stone-700 font-medium mb-3">
-                        🧠 Rosie's brain analyzed
+                        🧠 Rosie&apos;s brain analyzed
                       </p>
                       <div className="text-3xl font-bold text-transparent bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text">
                         {latestPost.tradingMetrics?.trades || 0} patterns
@@ -933,7 +933,7 @@ def detect_threats(self, transaction):
             {!blogLoading && (
               <div className="text-center mt-8">
                 <p className="text-stone-600 mb-4">
-                  {latestPost ? 'Follow Rosie\'s journey through the crypto markets' : 'Stay tuned for market insights'}
+                  {latestPost ? 'Follow Rosie&apos;s journey through the crypto markets' : 'Stay tuned for market insights'}
                 </p>
                 <Link 
                   href="/blog"

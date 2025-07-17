@@ -7,9 +7,6 @@ import { GiDogBowl, GiSittingDog } from 'react-icons/gi'
 import { MdPets } from 'react-icons/md'
 import { createClient } from '@sanity/client'
 
-
-
-
 // Initialize Sanity client
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -106,9 +103,9 @@ export default function Blog() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-purple-50">
       <Head>
-        <title>Rosie's Training Journal | A Rescue Pup's Market Adventures</title>
+        <title>Rosie&apos;s Training Journal | A Rescue Pup&apos;s Market Adventures</title>
         <link rel="icon" href="/rosie-pixel.png" type="image/png" />
-        <meta name="description" content="Follow Rosie's journey from rescue pup to market analyst. Heartwarming insights and trading wisdom from a very good girl." />
+        <meta name="description" content="Follow Rosie&apos;s journey from rescue pup to market analyst. Heartwarming insights and trading wisdom from a very good girl." />
       </Head>
 
       {/* Header */}
@@ -152,14 +149,14 @@ export default function Blog() {
               <MdPets className="text-4xl text-purple-600" />
               <h1 className="text-4xl sm:text-6xl font-bold">
                 <span className="bg-gradient-to-r from-purple-600 to-blue-600 text-transparent bg-clip-text">
-                  Rosie's Training Journal
+                  Rosie&apos;s Training Journal
                 </span>
               </h1>
               <MdPets className="text-4xl text-blue-600" />
             </div>
             
             <p className="text-xl text-purple-700 mb-4">
-              From Shelter to Success: A Rescue Pup's Market Adventures
+              From Shelter to Success: A Rescue Pup&apos;s Market Adventures
             </p>
             
             <p className="text-lg text-purple-600 max-w-2xl mx-auto">
@@ -297,7 +294,7 @@ export default function Blog() {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-8">
             <span className="bg-gradient-to-r from-purple-600 to-blue-600 text-transparent bg-clip-text">
-              Rosie's Progress Report
+              Rosie&apos;s Progress Report
             </span>
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -331,9 +328,9 @@ export default function Blog() {
           
           <div className="mt-12 p-6 bg-white rounded-xl shadow-lg border-2 border-purple-200">
             <p className="text-purple-700 text-lg italic">
-              "Every rescue pup has a story. Mine just happens to include market analysis 
+              &quot;Every rescue pup has a story. Mine just happens to include market analysis 
               and an unusual talent for spotting trends. But at the end of the day, 
-              I'm just a good girl who loves belly rubs and profitable trades."
+              I&apos;m just a good girl who loves belly rubs and profitable trades.&quot;
             </p>
             <p className="text-purple-600 mt-3">- Rosie 🐕</p>
           </div>

@@ -3,6 +3,7 @@ import { createClient } from '@sanity/client'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
 import ReactMarkdown from 'react-markdown'
 
 // Initialize Sanity client
@@ -37,16 +38,16 @@ export default function BlogPost({ post }) {
   return (
     <>
       <Head>
-        <title>{post.title} - Rosie's Trading Diary</title>
+        <title>{post.title} - Rosie&apos;s Trading Diary</title>
       </Head>
       
       <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
         {/* Header Navigation Bar */}
         <nav className="bg-white/80 backdrop-blur-sm shadow-sm sticky top-0 z-10">
           <div className="max-w-4xl mx-auto px-4 py-4">
-            <a href="/blog" className="text-amber-700 hover:text-amber-900 font-medium">
-              ← Back to Blog
-            </a>
+            <Link href="/blog" className="text-amber-700 hover:text-amber-900 font-medium">
+            ← Back to Blog
+            </Link>
           </div>
         </nav>
 
@@ -124,10 +125,13 @@ export default function BlogPost({ post }) {
                   <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-6">
                     <h3 className="text-2xl font-bold text-gray-900 mb-6">Trading Activity Chart</h3>
                     <div className="bg-white rounded-lg p-2 shadow-inner">
-                      <img 
+                      <Image 
                         src={post.candlestickChart} 
-                        alt="Candlestick Chart showing trading activity"
+                        alt="Candlestick Chart"
+                        width={1200}
+                        height={800}
                         className="w-full rounded-lg"
+                        unoptimized
                       />
                     </div>
                   </div>
@@ -137,10 +141,13 @@ export default function BlogPost({ post }) {
                   <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6">
                     <h3 className="text-2xl font-bold text-gray-900 mb-6">AI Brain Activity Heatmap</h3>
                     <div className="bg-white rounded-lg p-2 shadow-inner">
-                      <img 
+                      <Image 
                         src={post.featureHeatmap} 
                         alt="Feature importance heatmap"
+                        width={1200}
+                        height={800}
                         className="w-full rounded-lg"
+                        unoptimized
                       />
                     </div>
                   </div>
@@ -172,12 +179,12 @@ export default function BlogPost({ post }) {
 
           {/* Bottom Navigation */}
           <div className="mt-8 text-center">
-            <a 
+            <Link 
               href="/blog" 
               className="inline-block bg-amber-600 hover:bg-amber-700 text-white font-medium px-6 py-3 rounded-lg transition-colors"
             >
               View More Posts
-            </a>
+            </Link>
           </div>
         </div>
       </div>
