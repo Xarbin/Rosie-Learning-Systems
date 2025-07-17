@@ -1,10 +1,20 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useEffect, useState, useRef } from 'react'
-import { FaUniversity, FaCode, FaLinkedin, FaGithub, FaEnvelope, FaTelegram, FaTwitter } from 'react-icons/fa'
+import { FaUniversity, FaCode, FaLinkedin, FaGithub, FaEnvelope, FaTelegram, FaTwitter, FaCalendar, FaChartLine, FaBrain, FaArrowRight } from 'react-icons/fa'
 import { SiSolidity, SiPython, SiJavascript, SiReact } from 'react-icons/si'
 import { MdSecurity, MdAnalytics, MdMonitor, MdWarning } from 'react-icons/md'
 import { BsDatabase, BsGraphUp } from 'react-icons/bs'
+import { createClient } from '@sanity/client'
+
+// Initialize Sanity client with error handling
+const sanityClient = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ? createClient({
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
+  apiVersion: '2024-01-01',
+  useCdn: false,
+}) : null
 
 export default function Home() {
   const [scrollProgress, setScrollProgress] = useState(0)
@@ -12,6 +22,8 @@ export default function Home() {
   const [terminalLines, setTerminalLines] = useState([])
   const [activeProductTab, setActiveProductTab] = useState('analysis')
   const [expandedFeature, setExpandedFeature] = useState(null)
+  const [latestPost, setLatestPost] = useState(null)
+  const [blogLoading, setBlogLoading] = useState(true)
   const terminalRef = useRef(null)
   const expandedRef = useRef(null)
 
@@ -85,6 +97,47 @@ export default function Home() {
       timeoutIds.forEach(id => clearTimeout(id))
     }
   }, [])
+
+  // Fetch latest blog post
+  useEffect(() => {
+    fetchLatestPost()
+  }, [])
+
+  const fetchLatestPost = async () => {
+    try {
+      console.log('Fetching latest blog post...')
+      console.log('Sanity Project ID:', process.env.NEXT_PUBLIC_SANITY_PROJECT_ID)
+      console.log('Sanity Dataset:', process.env.NEXT_PUBLIC_SANITY_DATASET || 'production')
+      
+      if (!sanityClient) {
+        console.error('Sanity client not initialized - missing project ID')
+        setBlogLoading(false)
+        return
+      }
+      
+      const query = `*[_type == "rosieDiary"] | order(date desc) [0] {
+        _id,
+        title,
+        date,
+        "slug": slug.current,
+        mood,
+        tradingMetrics,
+        "excerpt": array::join(string::split((pt::text(content)), "")[0..200], "") + "...",
+        featureHeatmap,
+        performanceChart
+      }`
+      
+      const data = await sanityClient.fetch(query)
+      console.log('Sanity response:', data)
+      
+      setLatestPost(data)
+      setBlogLoading(false)
+    } catch (error) {
+      console.error('Error fetching latest post:', error)
+      console.error('Error details:', error.message)
+      setBlogLoading(false)
+    }
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -215,6 +268,23 @@ def detect_threats(self, transaction):
     }
   }
 
+  // Blog widget data
+  const moodEmojis = {
+    'banana_zone': '🍌',
+    'full_savage': '🦍',
+    'laser_focus': '🎯',
+    'revenge_mode': '😤',
+    'zen_monkey': '🧘'
+  }
+
+  const moodColors = {
+    'banana_zone': 'from-yellow-400 to-amber-500',
+    'full_savage': 'from-orange-500 to-red-600',
+    'laser_focus': 'from-blue-500 to-purple-600',
+    'revenge_mode': 'from-red-600 to-red-800',
+    'zen_monkey': 'from-green-500 to-teal-600'
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-stone-50 to-amber-50 text-stone-800 font-sans overflow-x-hidden">
       <Head>
@@ -237,6 +307,17 @@ def detect_threats(self, transaction):
           style={{ width: `${scrollProgress}%` }}
         />
       </div>
+
+      {/* Fixed Blog Button */}
+      <Link 
+        href="/blog" 
+        className="fixed top-4 right-4 sm:top-6 sm:right-6 z-50 inline-flex items-center px-4 py-2 bg-gradient-to-r from-amber-600 to-orange-600 text-white font-semibold rounded-lg hover:from-amber-700 hover:to-orange-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+      >
+        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+        Blog
+      </Link>
 
       {/* Navigation Dots */}
       <div className="fixed right-4 sm:right-8 top-1/2 transform -translate-y-1/2 z-40 hidden lg:block">
@@ -303,15 +384,31 @@ def detect_threats(self, transaction):
               Built with heart. Trained for chaos.
             </p>
 
-            <div className="mt-8 sm:mt-12 animate-bounce">
+            <div className="mt-8 sm:mt-12 flex flex-col items-center space-y-4">
               <button 
                 onClick={() => scrollToSection('product')}
-                className="text-stone-400 hover:text-amber-600 transition-colors p-2"
+                className="text-stone-400 hover:text-amber-600 transition-colors p-2 animate-bounce"
               >
                 <svg className="w-6 sm:w-8 h-6 sm:h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                 </svg>
               </button>
+              
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link href="/blog" className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-amber-600 to-orange-600 text-white font-semibold rounded-lg hover:from-amber-700 hover:to-orange-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                  </svg>
+                  Read Rosie's Diary
+                </Link>
+                
+                <Link href="/blog" className="inline-flex items-center px-6 py-3 border-2 border-amber-600 text-amber-600 font-semibold rounded-lg hover:bg-amber-600 hover:text-white transition-all duration-300 transform hover:scale-105">
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  View All Blog Posts
+                </Link>
+              </div>
             </div>
           </div>
         </section>
@@ -679,6 +776,177 @@ def detect_threats(self, transaction):
           </div>
         </section>
 
+        {/* Latest Blog Widget Section */}
+        <section className="py-16 sm:py-20 px-4 sm:px-6 bg-gradient-to-b from-amber-50 to-stone-100">
+          <div className="max-w-6xl mx-auto">
+            {/* Section Header */}
+            <div className="text-center mb-12">
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+                <span className="bg-gradient-to-r from-amber-700 to-orange-600 text-transparent bg-clip-text">
+                  Latest from Rosie's Diary
+                </span>
+              </h2>
+              <p className="text-stone-600 text-lg">Fresh insights from the blockchain jungle</p>
+            </div>
+
+            {/* Loading State */}
+            {blogLoading && (
+              <div className="text-center">
+                <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-amber-600 border-t-transparent mb-4"></div>
+                <p className="text-stone-600">Fetching latest insights...</p>
+              </div>
+            )}
+
+            {/* No Posts State */}
+            {!blogLoading && !latestPost && (
+              <div className="bg-white rounded-2xl shadow-xl overflow-hidden p-12 text-center">
+                <div className="mb-6">
+                  <span className="text-6xl">🦍</span>
+                </div>
+                <h3 className="text-2xl font-bold text-stone-800 mb-4">
+                  Rosie's Diary is Empty... For Now
+                </h3>
+                <p className="text-stone-600 mb-8 max-w-md mx-auto">
+                  Rosie is still warming up her trading algorithms. Check back soon for savage market insights and trading wisdom!
+                </p>
+                <Link 
+                  href="/blog"
+                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-amber-600 to-orange-600 text-white font-semibold rounded-lg hover:from-amber-700 hover:to-orange-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+                >
+                  Visit the Blog
+                  <FaArrowRight className="ml-2" />
+                </Link>
+                
+                {/* Debug Info (remove in production) */}
+                <div className="mt-8 p-4 bg-stone-100 rounded-lg text-left text-xs text-stone-600">
+                  <p className="font-semibold mb-2">Debug Info:</p>
+                  <p>• Sanity Project ID: {process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ? '✓ Set' : '✗ Not Set'}</p>
+                  <p>• Sanity Dataset: {process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'}</p>
+                  <p>• Blog Loading: {blogLoading ? 'true' : 'false'}</p>
+                  <p>• Latest Post: {latestPost ? '✓ Found' : '✗ Not Found'}</p>
+                </div>
+              </div>
+            )}
+
+            {/* Latest Post Card */}
+            {!blogLoading && latestPost && (
+              <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+                {/* Mood Banner */}
+                <div className={`h-3 bg-gradient-to-r ${moodColors[latestPost.mood] || moodColors['full_savage']}`} />
+                
+                <div className="grid md:grid-cols-2 gap-8 p-8">
+                  {/* Content Side */}
+                  <div className="space-y-4">
+                    {/* Mood & Date */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <span className="text-3xl">{moodEmojis[latestPost.mood] || '🦍'}</span>
+                        <span className="text-sm font-medium text-stone-600">
+                          {latestPost.mood?.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                        </span>
+                      </div>
+                      <span className="text-sm text-stone-500 flex items-center">
+                        <FaCalendar className="mr-1" />
+                        {new Date(latestPost.date).toLocaleDateString()}
+                      </span>
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="text-2xl sm:text-3xl font-bold text-stone-800">
+                      {latestPost.title}
+                    </h3>
+
+                    {/* Excerpt */}
+                    <p className="text-stone-600 leading-relaxed">
+                      {latestPost.excerpt}
+                    </p>
+
+                    {/* Metrics */}
+                    <div className="flex items-center space-x-6 text-sm">
+                      <span className="flex items-center text-stone-600">
+                        <FaChartLine className="mr-2 text-amber-600" />
+                        <strong>{latestPost.tradingMetrics?.trades || 0}</strong> trades
+                      </span>
+                      <span className="flex items-center text-stone-600">
+                        <FaBrain className="mr-2 text-purple-600" />
+                        Level <strong>{latestPost.tradingMetrics?.level || 1}</strong>
+                      </span>
+                      <span className="flex items-center text-stone-600">
+                        ELO <strong>{latestPost.tradingMetrics?.elo || 1200}</strong>
+                      </span>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex flex-wrap gap-4 pt-4">
+                      <Link 
+                        href={`/blog/${latestPost.slug || latestPost._id}`}
+                        className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-amber-600 to-orange-600 text-white font-semibold rounded-lg hover:from-amber-700 hover:to-orange-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+                      >
+                        Read Full Entry
+                        <FaArrowRight className="ml-2" />
+                      </Link>
+                      <Link 
+                        href="/blog"
+                        className="inline-flex items-center px-6 py-3 border-2 border-amber-600 text-amber-600 font-semibold rounded-lg hover:bg-amber-50 transition-all duration-300"
+                      >
+                        View All Entries
+                      </Link>
+                    </div>
+                  </div>
+
+                  {/* Visual Side */}
+                  <div className="space-y-4">
+                    {/* Stats Cards */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-lg p-4 border border-amber-200">
+                        <div className="text-2xl font-bold text-amber-700">
+                          {latestPost.tradingMetrics?.winRate || 0}%
+                        </div>
+                        <div className="text-sm text-stone-600">Win Rate</div>
+                      </div>
+                      <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-lg p-4 border border-purple-200">
+                        <div className="text-2xl font-bold text-purple-700">
+                          ${latestPost.tradingMetrics?.pnl || 0}
+                        </div>
+                        <div className="text-sm text-stone-600">Session P&L</div>
+                      </div>
+                    </div>
+
+                    {/* Feature Callout */}
+                    <div className="bg-stone-100 rounded-lg p-6 text-center">
+                      <p className="text-stone-700 font-medium mb-3">
+                        🧠 Rosie's brain analyzed
+                      </p>
+                      <div className="text-3xl font-bold text-transparent bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text">
+                        {latestPost.tradingMetrics?.trades || 0} patterns
+                      </div>
+                      <p className="text-sm text-stone-600 mt-2">
+                        in this trading session
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Bottom CTA - Always Show */}
+            {!blogLoading && (
+              <div className="text-center mt-8">
+                <p className="text-stone-600 mb-4">
+                  {latestPost ? 'Follow Rosie\'s journey through the crypto markets' : 'Stay tuned for market insights'}
+                </p>
+                <Link 
+                  href="/blog"
+                  className="inline-flex items-center text-amber-600 hover:text-amber-700 font-semibold transition-colors"
+                >
+                  {latestPost ? 'Explore All Diary Entries' : 'Check Out the Blog'}
+                  <FaArrowRight className="ml-2" />
+                </Link>
+              </div>
+            )}
+          </div>
+        </section>
+
         {/* Footer */}
         <footer className="bg-stone-900 border-t border-stone-800 py-8 sm:py-12 px-4 sm:px-6">
           <div className="max-w-4xl mx-auto text-center">
@@ -705,11 +973,11 @@ def detect_threats(self, transaction):
             </div>
 
             <p className="text-stone-400 text-xs sm:text-sm mb-3 sm:mb-4">
-              © 2024 Rosie Learning Systems LLC. All rights reserved.
+              © 2025 Rosie Learning Systems LLC. All rights reserved.
             </p>
             
             <p className="text-stone-500 text-[10px] sm:text-xs tracking-wider">
-              Built with conviction. Deployed with purpose.
+              Built by my hatred of JavaScript and stubbornness to do it myself.
             </p>
           </div>
         </footer>
