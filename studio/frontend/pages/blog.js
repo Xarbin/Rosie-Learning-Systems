@@ -348,7 +348,7 @@ export default function Blog() {
         <div className="max-w-4xl mx-auto text-center">
           <Image 
             src="/rosie-pixel.png" 
-            alt="Rosie Logo" 
+            alt="Rosies Logo" 
             width={50} 
             height={50}
             className="mx-auto opacity-80 mb-4"
