@@ -400,7 +400,7 @@ export default function Home() {
                     <div>
                       <h4 className="font-semibold text-amber-700 mb-1 sm:mb-2 text-sm sm:text-base">Background</h4>
                       <ul className="text-xs sm:text-sm text-stone-600 space-y-1">
-                        <li>• US Army Infantry, OEF/OIR Veteran</li>
+                        <li>• US Army 11B Infantry, OEF/OIR </li>
                         <li>• VB → Python → Web3 → JavaScript</li>
                         <li>• AI + market data + blockchain chaos</li>
                       </ul>
