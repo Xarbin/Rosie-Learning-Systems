@@ -3,13 +3,17 @@ import Image from 'next/image'
 import { useEffect, useState, useRef } from 'react'
 import { FaUniversity, FaCode, FaLinkedin, FaGithub, FaEnvelope, FaTelegram, FaTwitter } from 'react-icons/fa'
 import { SiSolidity, SiPython, SiJavascript, SiReact } from 'react-icons/si'
-import { MdSecurity, MdAnalytics } from 'react-icons/md'
+import { MdSecurity, MdAnalytics, MdMonitor, MdWarning } from 'react-icons/md'
+import { BsDatabase, BsGraphUp } from 'react-icons/bs'
 
 export default function Home() {
   const [scrollProgress, setScrollProgress] = useState(0)
   const [activeSection, setActiveSection] = useState(0)
   const [terminalLines, setTerminalLines] = useState([])
+  const [activeProductTab, setActiveProductTab] = useState('analysis')
+  const [expandedFeature, setExpandedFeature] = useState(null)
   const terminalRef = useRef(null)
+  const expandedRef = useRef(null)
 
   // Terminal simulation data
   const generateTerminalSequence = () => {
@@ -107,6 +111,110 @@ export default function Home() {
     document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' })
   }
 
+  // Product feature content
+  const productFeatures = {
+    analysis: {
+      title: "Data Collection & Analysis",
+      icon: <BsDatabase className="text-2xl" />,
+      description: "Advanced blockchain data aggregation and pattern recognition",
+      features: [
+        "Real-time mempool monitoring",
+        "Liquidity pool analysis",
+        "Smart contract verification",
+        "Historical pattern matching"
+      ],
+      code: `# Data Collection Module
+def collect_blockchain_data(self):
+    mempool = self.monitor_mempool()
+    liquidity = self.analyze_liquidity_pools()
+    contracts = self.verify_smart_contracts()
+    
+    return self.aggregate_signals({
+        'mempool': mempool,
+        'liquidity': liquidity,
+        'contracts': contracts
+    })`,
+      expandedContent: {
+        title: "Deep Dive: Data Collection & Analysis",
+        sections: [
+          {
+            heading: "Real-time Mempool Monitoring",
+            content: "Rosie continuously scans pending transactions in the mempool, identifying patterns before they hit the blockchain. This allows for predictive analysis of market movements and early detection of coordinated trading activities.",
+            stats: ["500K+ transactions/hour", "15ms avg response time", "99.9% uptime"]
+          },
+          {
+            heading: "Liquidity Pool Analysis",
+            content: "Advanced algorithms analyze liquidity depth, price impact, and pool composition across multiple DEXs. Rosie identifies arbitrage opportunities and detects unusual liquidity movements that may indicate market manipulation.",
+            stats: ["200+ DEX integrations", "Real-time price feeds", "Cross-chain analysis"]
+          },
+          {
+            heading: "Pattern Recognition Engine",
+            content: "Machine learning models trained on millions of historical transactions identify recurring patterns and anomalies. The system adapts to new market conditions and continuously improves its predictive accuracy.",
+            stats: ["ML-powered insights", "Self-improving algorithms", "Pattern library of 10K+ scenarios"]
+          }
+        ]
+      }
+    },
+    monitoring: {
+      title: "Live Monitoring & Threat Detection",
+      icon: <MdMonitor className="text-2xl" />,
+      description: "24/7 autonomous threat detection and opportunity scanning",
+      features: [
+        "Rug pull detection algorithm",
+        "Honeypot identification",
+        "Volume anomaly detection",
+        "Whale movement tracking"
+      ],
+      code: `# Threat Detection Module
+def detect_threats(self, transaction):
+    risk_score = self.calculate_risk(transaction)
+    
+    if self.is_honeypot(transaction.contract):
+        return Alert("HONEYPOT_DETECTED", critical=True)
+    
+    if self.detect_rug_pattern(transaction):
+        return Alert("RUG_PULL_RISK", risk_score)
+        
+    return self.monitor_continue(transaction)`,
+      expandedContent: {
+        title: "Deep Dive: Threat Detection & Monitoring",
+        sections: [
+          {
+            heading: "Rug Pull Detection System",
+            content: "Proprietary algorithms analyze contract ownership, liquidity locks, and developer behavior patterns. Rosie assigns risk scores based on multiple factors including code similarity to known scams and unusual permission structures.",
+            stats: ["95% detection accuracy", "< 2% false positive rate", "Database of 50K+ known rugs"]
+          },
+          {
+            heading: "Honeypot Identification",
+            content: "Advanced static and dynamic analysis of smart contracts identifies hidden transfer restrictions and malicious functions. Rosie simulates transactions to detect traps before you fall into them.",
+            stats: ["Smart contract decompilation", "Automated testing suite", "Real-time alerts"]
+          },
+          {
+            heading: "Whale Movement Tracking",
+            content: "Monitor large holder activities across multiple chains. Rosie tracks wallet clustering, identifies accumulation patterns, and alerts on significant position changes that could impact price.",
+            stats: ["10K+ whale wallets tracked", "Cross-reference with CEX flows", "Historical behavior analysis"]
+          }
+        ]
+      }
+    }
+  }
+
+  // Handle feature expansion with smooth scroll
+  const handleFeatureClick = (key) => {
+    setActiveProductTab(key)
+    if (expandedFeature === key) {
+      setExpandedFeature(null)
+    } else {
+      setExpandedFeature(key)
+      // Smooth scroll to expanded content after a brief delay
+      setTimeout(() => {
+        if (expandedRef.current) {
+          expandedRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+      }, 100)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-stone-50 to-amber-50 text-stone-800 font-sans overflow-x-hidden">
       <Head>
@@ -147,12 +255,25 @@ export default function Home() {
       </div>
 
       <main>
-        {/* Hero Section - Light */}
-        <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-b from-stone-50 to-amber-50 px-4 sm:px-6">
-          <div className="absolute inset-0 bg-gradient-to-br from-amber-100/50 via-stone-50 to-orange-100/50" />
-          
-          {/* Animated Background */}
-          <div className="absolute inset-0">
+        {/* Hero Section with Background Image */}
+        <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden">
+          {/* Background Image Container */}
+          <div className="absolute inset-0 z-0">
+            <div className="absolute inset-0 bg-gradient-to-b from-stone-50/90 via-amber-50/80 to-amber-50/90 z-10" />
+            {/* Replace /your-background.jpg with your actual image path */}
+            <Image 
+              src="/lazykitty.png" 
+              alt="Background"
+              fill
+              className="object-cover"
+              priority
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+            />
+          </div>
+
+          {/* Animated Background Overlays */}
+          <div className="absolute inset-0 z-5">
             <div className="absolute w-64 sm:w-96 h-64 sm:h-96 bg-amber-300/20 rounded-full blur-3xl animate-pulse top-20 -left-32 sm:-left-48" />
             <div className="absolute w-64 sm:w-96 h-64 sm:h-96 bg-orange-300/20 rounded-full blur-3xl animate-pulse bottom-20 -right-32 sm:-right-48" />
           </div>
@@ -195,7 +316,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Product Section */}
+        {/* Enhanced Product Section */}
         <section id="product" className="min-h-screen flex items-center justify-center py-16 sm:py-20 px-4 sm:px-6 bg-gradient-to-b from-stone-900 to-stone-800">
           <div className="max-w-6xl mx-auto w-full">
             <div className="text-center mb-12 sm:mb-16">
@@ -207,62 +328,158 @@ export default function Home() {
               <div className="w-20 sm:w-24 h-1 bg-gradient-to-r from-amber-500 to-orange-500 mx-auto" />
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
-              <div className="space-y-3 sm:space-y-6">
-                <div className="flex items-center space-x-3 sm:space-x-4">
+            <div className="space-y-12">
+              {/* Product Header */}
+              <div className="text-center max-w-3xl mx-auto">
+                <div className="flex items-center justify-center space-x-3 sm:space-x-4 mb-4">
                   <SiPython className="text-2xl sm:text-4xl text-amber-600 flex-shrink-0" />
                   <h3 className="text-xl sm:text-3xl font-bold text-stone-100">Rosie.py</h3>
                 </div>
-                
                 <p className="text-sm sm:text-lg text-stone-400 leading-relaxed">
                   An autonomous crypto agent that operates with the instincts of a trained hunter. 
                   Rosie snoops the blockchain looking for opportunities, catching bad actors, 
                   and turning market noise into actionable intelligence.
                 </p>
+              </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 pt-2 sm:pt-4">
-                  <div className="bg-stone-800/80 backdrop-blur-sm p-3 sm:p-4 rounded-lg border border-stone-700">
-                    <MdAnalytics className="text-xl sm:text-2xl text-amber-600 mb-1 sm:mb-2" />
-                    <h4 className="font-semibold text-stone-100 text-sm sm:text-base">Real-time Analysis</h4>
-                    <p className="text-xs sm:text-sm text-stone-400">24/7 blockchain monitoring</p>
-                  </div>
-                  <div className="bg-stone-800/80 backdrop-blur-sm p-3 sm:p-4 rounded-lg border border-stone-700">
-                    <MdSecurity className="text-xl sm:text-2xl text-amber-600 mb-1 sm:mb-2" />
-                    <h4 className="font-semibold text-stone-100 text-sm sm:text-base">Threat Detection</h4>
-                    <p className="text-xs sm:text-sm text-stone-400">Advanced pattern recognition</p>
-                  </div>
+              {/* Interactive Feature Tabs */}
+              <div className="bg-stone-800/50 backdrop-blur-sm rounded-2xl border border-stone-700 p-6 sm:p-8">
+                {/* Tab Navigation */}
+                <div className="flex flex-col sm:flex-row gap-4 mb-8">
+                  {Object.entries(productFeatures).map(([key, feature]) => (
+                    <button
+                      key={key}
+                      onClick={() => handleFeatureClick(key)}
+                      className={`flex-1 p-4 rounded-lg border transition-all duration-300 ${
+                        activeProductTab === key
+                          ? 'bg-gradient-to-r from-amber-600 to-orange-600 border-transparent text-white shadow-lg'
+                          : 'bg-stone-800 border-stone-700 text-stone-400 hover:border-amber-600'
+                      }`}
+                    >
+                      <div className="flex items-center justify-center space-x-3">
+                        {feature.icon}
+                        <span className="font-semibold text-sm sm:text-base">{feature.title}</span>
+                      </div>
+                      {expandedFeature === key && (
+                        <div className="mt-2">
+                          <svg className="w-5 h-5 mx-auto animate-bounce" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                          </svg>
+                        </div>
+                      )}
+                    </button>
+                  ))}
                 </div>
 
-                <div className="flex flex-wrap gap-3 sm:gap-6 pt-2 sm:pt-4">
-                  <span className="flex items-center text-xs sm:text-sm text-stone-400">
-                    <SiSolidity className="mr-1 sm:mr-2" /> Solidity
-                  </span>
-                  <span className="flex items-center text-xs sm:text-sm text-stone-400">
-                    <SiJavascript className="mr-1 sm:mr-2" /> JavaScript
-                  </span>
-                  <span className="flex items-center text-xs sm:text-sm text-stone-400">
-                    <SiReact className="mr-1 sm:mr-2" /> React
-                  </span>
+                {/* Tab Content */}
+                <div className="space-y-6">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {/* Feature Details */}
+                    <div className="space-y-4">
+                      <h4 className="text-xl font-bold text-stone-100">
+                        {productFeatures[activeProductTab].title}
+                      </h4>
+                      <p className="text-stone-400">
+                        {productFeatures[activeProductTab].description}
+                      </p>
+                      <ul className="space-y-2">
+                        {productFeatures[activeProductTab].features.map((feature, index) => (
+                          <li key={index} className="flex items-start space-x-2">
+                            <span className="text-amber-600 mt-1">•</span>
+                            <span className="text-stone-300 text-sm">{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Code Display */}
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-gradient-to-r from-amber-400/10 to-orange-400/10 blur-2xl" />
+                      <div className="relative bg-stone-900/90 backdrop-blur-sm p-4 rounded-lg border border-stone-700">
+                        <pre className="text-xs sm:text-sm text-amber-300 overflow-x-auto">
+                          <code>{productFeatures[activeProductTab].code}</code>
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Tech Stack */}
+                  <div className="flex flex-wrap gap-3 sm:gap-6 pt-4 border-t border-stone-700">
+                    <span className="flex items-center text-xs sm:text-sm text-stone-400">
+                      <SiPython className="mr-1 sm:mr-2" /> Python
+                    </span>
+                    <span className="flex items-center text-xs sm:text-sm text-stone-400">
+                      <SiSolidity className="mr-1 sm:mr-2" /> Solidity
+                    </span>
+                    <span className="flex items-center text-xs sm:text-sm text-stone-400">
+                      <SiJavascript className="mr-1 sm:mr-2" /> JavaScript
+                    </span>
+                    <span className="flex items-center text-xs sm:text-sm text-stone-400">
+                      <SiReact className="mr-1 sm:mr-2" /> React
+                    </span>
+                  </div>
                 </div>
               </div>
 
-              <div className="relative mt-6 md:mt-0">
-                <div className="absolute inset-0 bg-gradient-to-r from-amber-400/20 to-orange-400/20 blur-3xl" />
-                <div className="relative bg-stone-800/90 backdrop-blur-sm p-3 sm:p-6 lg:p-8 rounded-2xl border border-stone-700 overflow-x-auto">
-                  <pre className="text-[10px] sm:text-sm text-amber-300">
-                    <code>{`class RosieAI:
-    def __init__(self):
-        self.mode = "hunt"
-        self.instinct = "sharp"
-        self.loyalty = float('inf')
-    
-    def analyze_market(self, data):
-        patterns = self.detect_patterns(data)
-        opportunities = self.find_alpha(patterns)
-        return self.execute_strategy(opportunities)`}</code>
-                  </pre>
+              {/* Expanded Feature Details */}
+              {expandedFeature && (
+                <div 
+                  ref={expandedRef}
+                  className="mt-12 animate-fade-in"
+                >
+                  <div className="bg-gradient-to-br from-stone-900 via-stone-800 to-stone-900 rounded-2xl border border-amber-600/30 p-8 sm:p-12">
+                    <h3 className="text-2xl sm:text-4xl font-bold mb-8 text-center">
+                      <span className="bg-gradient-to-r from-amber-400 to-orange-400 text-transparent bg-clip-text">
+                        {productFeatures[expandedFeature].expandedContent.title}
+                      </span>
+                    </h3>
+
+                    <div className="grid md:grid-cols-1 gap-8">
+                      {productFeatures[expandedFeature].expandedContent.sections.map((section, index) => (
+                        <div 
+                          key={index} 
+                          className="bg-stone-800/50 backdrop-blur-sm rounded-xl p-6 border border-stone-700 hover:border-amber-600/50 transition-all duration-300"
+                        >
+                          <h4 className="text-xl font-bold text-amber-500 mb-4 flex items-center">
+                            <span className="w-8 h-8 bg-amber-600/20 rounded-full flex items-center justify-center mr-3">
+                              {index + 1}
+                            </span>
+                            {section.heading}
+                          </h4>
+                          
+                          <p className="text-stone-300 mb-6 leading-relaxed">
+                            {section.content}
+                          </p>
+
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            {section.stats.map((stat, statIndex) => (
+                              <div 
+                                key={statIndex}
+                                className="bg-stone-900/50 rounded-lg p-3 text-center border border-stone-700"
+                              >
+                                <p className="text-amber-400 text-sm font-semibold">{stat}</p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Close button */}
+                    <div className="text-center mt-8">
+                      <button
+                        onClick={() => setExpandedFeature(null)}
+                        className="text-stone-400 hover:text-amber-500 transition-colors"
+                      >
+                        <svg className="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        <span className="text-sm mt-2 block">Close Details</span>
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </section>
