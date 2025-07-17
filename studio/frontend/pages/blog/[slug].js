@@ -6,13 +6,13 @@ import Image from 'next/image'
 import Link from 'next/link'
 import ReactMarkdown from 'react-markdown'
 
-// Initialize Sanity client
-const client = createClient({
+// Initialize Sanity client with error handling
+const client = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ? createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
   apiVersion: '2024-01-01',
   useCdn: true,
-})
+}) : null
 
 export default function BlogPost({ post }) {
   const router = useRouter()
@@ -193,6 +193,14 @@ export default function BlogPost({ post }) {
 }
 
 export async function getStaticPaths() {
+  // Return empty paths if client is not configured
+  if (!client) {
+    return {
+      paths: [],
+      fallback: 'blocking',
+    }
+  }
+
   // Fetch all posts to generate paths
   const posts = await client.fetch(`*[_type == "rosieDiary" && defined(slug.current)]{
     "slug": slug.current
@@ -210,6 +218,13 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const { slug } = params
+
+  // Return 404 if client is not configured
+  if (!client) {
+    return {
+      notFound: true,
+    }
+  }
 
   // Fetch the specific post
   const post = await client.fetch(`

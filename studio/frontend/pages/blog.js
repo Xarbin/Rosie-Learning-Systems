@@ -7,13 +7,13 @@ import { GiDogBowl, GiSittingDog } from 'react-icons/gi'
 import { MdPets } from 'react-icons/md'
 import { createClient } from '@sanity/client'
 
-// Initialize Sanity client
-const client = createClient({
+// Initialize Sanity client with error handling
+const client = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ? createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
   apiVersion: '2024-01-01',
   useCdn: true,
-})
+}) : null
 
 // GROQ query for fetching blog posts
 const POSTS_QUERY = `*[_type == "rosieDiary"] | order(date desc) {
@@ -38,6 +38,12 @@ export default function Blog() {
 
   const fetchPosts = async () => {
     try {
+      if (!client) {
+        console.error('Sanity client not initialized - missing project ID')
+        setLoading(false)
+        return
+      }
+      
       const data = await client.fetch(POSTS_QUERY)
       setPosts(data)
       setLoading(false)
