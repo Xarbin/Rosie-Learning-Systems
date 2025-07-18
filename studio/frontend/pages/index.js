@@ -7,7 +7,12 @@ import { SiSolidity, SiPython, SiJavascript, SiReact } from 'react-icons/si'
 import { MdSecurity, MdAnalytics, MdMonitor, MdWarning } from 'react-icons/md'
 import { BsDatabase, BsGraphUp } from 'react-icons/bs'
 import { createClient } from '@sanity/client'
+import blockContent from './blockContent'
+import category from './category'
+import author from './author'
+import rosieDiary from './rosieDiary' // Changed from 'post'
 
+export const schemaTypes = [rosieDiary, author, category, blockContent] // Changed from 'post'
 // Initialize Sanity client with error handling
 const sanityClient = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ? createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
