@@ -354,7 +354,7 @@ export default function Blog() {
             className="mx-auto opacity-80 mb-4"
           />
           <p className="text-purple-200 text-sm mb-2">
-            © 2024 Rosie Learning Systems. Built with love, treats, and lots of tail wags.
+            © 2025 Rosie Learning Systems. Built with love, treats, and lots of tail wags.
           </p>
           <p className="text-purple-300 text-xs">
             Dedicated to rescue pups everywhere who are learning new tricks. 🐕💜
