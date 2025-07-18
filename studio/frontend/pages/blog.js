@@ -357,7 +357,7 @@ export default function Blog() {
             © 2025 Rosie Learning Systems. Built with love, treats, and lots of tail wags.
           </p>
           <p className="text-purple-300 text-xs">
-            Dedicated to rescue pups everywhere who are learning new tricks. 🐕💜
+            Dedicated to rescued pups everywhere who are learning new tricks. 🐕💜
           </p>
         </div>
       </footer>
