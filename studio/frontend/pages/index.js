@@ -6,16 +6,24 @@ import { FaUniversity, FaCode, FaLinkedin, FaGithub, FaEnvelope, FaTelegram, FaT
 import { SiSolidity, SiPython, SiJavascript, SiReact } from 'react-icons/si'
 import { MdSecurity, MdAnalytics, MdMonitor, MdWarning } from 'react-icons/md'
 import { BsDatabase, BsGraphUp } from 'react-icons/bs'
-import { createClient } from '@sanity/client'
 
+// This is our new hardcoded post data for the widget
+const latestPostStatic = {
+  _id: 'static-post-1',
+  title: "Under the Hood: How Rosie Learns",
+  date: '2025-07-17T00:00:00.000Z',
+  slug: 'under-the-hood-how-rosie-learns',
+  mood: 'laser_focus',
+  tradingMetrics: {
+    trades: 6020,
+    level: 26,
+    elo: 32785,
+    winRate: 49.5,
+    pnl: 153.49
+  },
+  excerpt: "A deep dive into the AI training, data analysis, and decision-making process of Rosie, the autonomous crypto trading agent."
+};
 
-// Initialize Sanity client with error handling
-const sanityClient = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ? createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
-  apiVersion: '2024-01-01',
-  useCdn: false,
-}) : null
 
 export default function Home() {
   const [scrollProgress, setScrollProgress] = useState(0)
@@ -23,11 +31,15 @@ export default function Home() {
   const [terminalLines, setTerminalLines] = useState([])
   const [activeProductTab, setActiveProductTab] = useState('analysis')
   const [expandedFeature, setExpandedFeature] = useState(null)
-  const [latestPost, setLatestPost] = useState(null)
-  const [blogLoading, setBlogLoading] = useState(true)
+  
+  // We'll use our static post data here
+  const latestPost = latestPostStatic;
+  const blogLoading = false; 
+
   const terminalRef = useRef(null)
   const expandedRef = useRef(null)
 
+  // ... (keep all the existing useEffects and functions like generateTerminalSequence, scrollToSection, etc.)
   // Terminal simulation data
   const generateTerminalSequence = () => {
     const tokens = ['PEPE', 'SHIB', 'DOGE', 'FLOKI', 'ELON', 'MOON', 'ROCKET', 'WAGMI', 'GME', 'APE']
@@ -71,12 +83,10 @@ export default function Home() {
           if (isActive) {
             setTerminalLines(prev => [...prev, line])
             
-            // Auto-scroll terminal
             if (terminalRef.current) {
               terminalRef.current.scrollTop = terminalRef.current.scrollHeight
             }
             
-            // If this is the last line, wait then restart
             if (index === sequence.length - 1) {
               const restartTimeout = setTimeout(() => {
                 if (isActive) runSequence()
@@ -89,56 +99,13 @@ export default function Home() {
       })
     }
     
-    // Start the sequence
     runSequence()
     
-    // Cleanup function
     return () => {
       isActive = false
       timeoutIds.forEach(id => clearTimeout(id))
     }
   }, [])
-
-  // Fetch latest blog post
-  useEffect(() => {
-    fetchLatestPost()
-  }, [])
-
-  const fetchLatestPost = async () => {
-    try {
-      console.log('Fetching latest blog post...')
-      console.log('Sanity Project ID:', process.env.NEXT_PUBLIC_SANITY_PROJECT_ID)
-      console.log('Sanity Dataset:', process.env.NEXT_PUBLIC_SANITY_DATASET || 'production')
-      
-      if (!sanityClient) {
-        console.error('Sanity client not initialized - missing project ID')
-        setBlogLoading(false)
-        return
-      }
-      
-      const query = `*[_type == "rosieDiary"] | order(date desc) [0] {
-        _id,
-        title,
-        date,
-        "slug": slug.current,
-        mood,
-        tradingMetrics,
-        "excerpt": array::join(string::split((pt::text(content)), "")[0..200], "") + "...",
-        featureHeatmap,
-        performanceChart
-      }`
-      
-      const data = await sanityClient.fetch(query)
-      console.log('Sanity response:', data)
-      
-      setLatestPost(data)
-      setBlogLoading(false)
-    } catch (error) {
-      console.error('Error fetching latest post:', error)
-      console.error('Error details:', error.message)
-      setBlogLoading(false)
-    }
-  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -147,7 +114,6 @@ export default function Home() {
       const progress = (currentScroll / totalHeight) * 100
       setScrollProgress(progress)
 
-      // Determine active section based on scroll position
       const sections = document.querySelectorAll('section')
       sections.forEach((section, index) => {
         const rect = section.getBoundingClientRect()
@@ -165,7 +131,6 @@ export default function Home() {
     document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' })
   }
 
-  // Product feature content
   const productFeatures = {
     analysis: {
       title: "Data Collection & Analysis",
@@ -253,14 +218,12 @@ def detect_threats(self, transaction):
     }
   }
 
-  // Handle feature expansion with smooth scroll
   const handleFeatureClick = (key) => {
     setActiveProductTab(key)
     if (expandedFeature === key) {
       setExpandedFeature(null)
     } else {
       setExpandedFeature(key)
-      // Smooth scroll to expanded content after a brief delay
       setTimeout(() => {
         if (expandedRef.current) {
           expandedRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -269,7 +232,6 @@ def detect_threats(self, transaction):
     }
   }
 
-  // Blog widget data
   const moodEmojis = {
     'banana_zone': '🍌',
     'full_savage': '🦍',
@@ -301,7 +263,6 @@ def detect_threats(self, transaction):
         <link rel="canonical" href="https://rosieai.dev" />
       </Head>
 
-      {/* Progress Bar */}
       <div className="fixed top-0 left-0 w-full h-1 bg-stone-200 z-50">
         <div 
           className="h-full bg-gradient-to-r from-amber-600 to-orange-500 transition-all duration-300"
@@ -309,7 +270,6 @@ def detect_threats(self, transaction):
         />
       </div>
 
-      {/* Fixed Blog Button */}
       <Link 
         href="/blog" 
         className="fixed top-4 right-4 sm:top-6 sm:right-6 z-50 inline-flex items-center px-4 py-2 bg-gradient-to-r from-amber-600 to-orange-600 text-white font-semibold rounded-lg hover:from-amber-700 hover:to-orange-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
@@ -320,7 +280,6 @@ def detect_threats(self, transaction):
         Blog
       </Link>
 
-      {/* Navigation Dots */}
       <div className="fixed right-4 sm:right-8 top-1/2 transform -translate-y-1/2 z-40 hidden lg:block">
         {['hero', 'product', 'legacy', 'leadership'].map((section, index) => (
           <button
@@ -337,12 +296,9 @@ def detect_threats(self, transaction):
       </div>
 
       <main>
-        {/* Hero Section with Background Image */}
-        <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden">
-          {/* Background Image Container */}
+         <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden">
           <div className="absolute inset-0 z-0">
             <div className="absolute inset-0 bg-gradient-to-b from-stone-50/90 via-amber-50/80 to-amber-50/90 z-10" />
-            {/* Replace /your-background.jpg with your actual image path */}
             <Image 
               src="/lazykitty.png" 
               alt="Background"
@@ -353,13 +309,10 @@ def detect_threats(self, transaction):
               blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aaAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
             />
           </div>
-
-          {/* Animated Background Overlays */}
           <div className="absolute inset-0 z-5">
             <div className="absolute w-64 sm:w-96 h-64 sm:h-96 bg-amber-300/20 rounded-full blur-3xl animate-pulse top-20 -left-32 sm:-left-48" />
             <div className="absolute w-64 sm:w-96 h-64 sm:h-96 bg-orange-300/20 rounded-full blur-3xl animate-pulse bottom-20 -right-32 sm:-right-48" />
           </div>
-
           <div className="relative z-10 text-center px-2 sm:px-6 max-w-4xl mx-auto">
             <div className="mb-6 sm:mb-8 animate-fade-in">
               <Image 
@@ -370,21 +323,17 @@ def detect_threats(self, transaction):
                 className="mx-auto filter drop-shadow-2xl sm:w-[120px] sm:h-[120px]"
               />
             </div>
-            
             <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-8xl font-bold mb-4 animate-fade-in-delay-1">
               <span className="bg-gradient-to-r from-amber-700 to-orange-600 text-transparent bg-clip-text block sm:inline">
                 Rosie Learning Systems
               </span>
             </h1>
-            
             <p className="text-base sm:text-xl md:text-2xl text-stone-600 mb-6 sm:mb-8 animate-fade-in-delay-2">
               Autonomous Crypto Intelligence
             </p>
-            
             <p className="text-sm sm:text-lg text-stone-500 max-w-2xl mx-auto animate-fade-in-delay-3">
               Built with heart. Trained for chaos.
             </p>
-
             <div className="mt-8 sm:mt-12 flex flex-col items-center space-y-4">
               <button 
                 onClick={() => scrollToSection('product')}
@@ -394,7 +343,6 @@ def detect_threats(self, transaction):
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                 </svg>
               </button>
-              
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/blog" className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-amber-600 to-orange-600 text-white font-semibold rounded-lg hover:from-amber-700 hover:to-orange-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
                   <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -402,7 +350,6 @@ def detect_threats(self, transaction):
                   </svg>
                   Read Rosie&apos;s Diary
                 </Link>
-                
                 <Link href="/blog" className="inline-flex items-center px-6 py-3 border-2 border-amber-600 text-amber-600 font-semibold rounded-lg hover:bg-amber-600 hover:text-white transition-all duration-300 transform hover:scale-105">
                   <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -414,7 +361,6 @@ def detect_threats(self, transaction):
           </div>
         </section>
 
-        {/* Enhanced Product Section */}
         <section id="product" className="min-h-screen flex items-center justify-center py-16 sm:py-20 px-4 sm:px-6 bg-gradient-to-b from-stone-900 to-stone-800">
           <div className="max-w-6xl mx-auto w-full">
             <div className="text-center mb-12 sm:mb-16">
@@ -425,9 +371,7 @@ def detect_threats(self, transaction):
               </h2>
               <div className="w-20 sm:w-24 h-1 bg-gradient-to-r from-amber-500 to-orange-500 mx-auto" />
             </div>
-
             <div className="space-y-12">
-              {/* Product Header */}
               <div className="text-center max-w-3xl mx-auto">
                 <div className="flex items-center justify-center space-x-3 sm:space-x-4 mb-4">
                   <SiPython className="text-2xl sm:text-4xl text-amber-600 flex-shrink-0" />
@@ -439,10 +383,7 @@ def detect_threats(self, transaction):
                   and turning market noise into actionable intelligence.
                 </p>
               </div>
-
-              {/* Interactive Feature Tabs */}
               <div className="bg-stone-800/50 backdrop-blur-sm rounded-2xl border border-stone-700 p-6 sm:p-8">
-                {/* Tab Navigation */}
                 <div className="flex flex-col sm:flex-row gap-4 mb-8">
                   {Object.entries(productFeatures).map(([key, feature]) => (
                     <button
@@ -468,11 +409,8 @@ def detect_threats(self, transaction):
                     </button>
                   ))}
                 </div>
-
-                {/* Tab Content */}
                 <div className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
-                    {/* Feature Details */}
                     <div className="space-y-4">
                       <h4 className="text-xl font-bold text-stone-100">
                         {productFeatures[activeProductTab].title}
@@ -489,8 +427,6 @@ def detect_threats(self, transaction):
                         ))}
                       </ul>
                     </div>
-
-                    {/* Code Display */}
                     <div className="relative">
                       <div className="absolute inset-0 bg-gradient-to-r from-amber-400/10 to-orange-400/10 blur-2xl" />
                       <div className="relative bg-stone-900/90 backdrop-blur-sm p-4 rounded-lg border border-stone-700">
@@ -500,8 +436,6 @@ def detect_threats(self, transaction):
                       </div>
                     </div>
                   </div>
-
-                  {/* Tech Stack */}
                   <div className="flex flex-wrap gap-3 sm:gap-6 pt-4 border-t border-stone-700">
                     <span className="flex items-center text-xs sm:text-sm text-stone-400">
                       <SiPython className="mr-1 sm:mr-2" /> Python
@@ -518,8 +452,6 @@ def detect_threats(self, transaction):
                   </div>
                 </div>
               </div>
-
-              {/* Expanded Feature Details */}
               {expandedFeature && (
                 <div 
                   ref={expandedRef}
@@ -531,7 +463,6 @@ def detect_threats(self, transaction):
                         {productFeatures[expandedFeature].expandedContent.title}
                       </span>
                     </h3>
-
                     <div className="grid md:grid-cols-1 gap-8">
                       {productFeatures[expandedFeature].expandedContent.sections.map((section, index) => (
                         <div 
@@ -544,11 +475,9 @@ def detect_threats(self, transaction):
                             </span>
                             {section.heading}
                           </h4>
-                          
                           <p className="text-stone-300 mb-6 leading-relaxed">
                             {section.content}
                           </p>
-
                           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             {section.stats.map((stat, statIndex) => (
                               <div 
@@ -562,8 +491,6 @@ def detect_threats(self, transaction):
                         </div>
                       ))}
                     </div>
-
-                    {/* Close button */}
                     <div className="text-center mt-8">
                       <button
                         onClick={() => setExpandedFeature(null)}
@@ -582,7 +509,6 @@ def detect_threats(self, transaction):
           </div>
         </section>
 
-        {/* Terminal Output Section */}
         <section id="terminal" className="min-h-screen flex items-center justify-center py-16 sm:py-20 px-4 sm:px-6 bg-gradient-to-b from-stone-50 to-amber-50">
           <div className="max-w-6xl mx-auto w-full">
             <div className="text-center mb-8 sm:mb-12">
@@ -593,7 +519,6 @@ def detect_threats(self, transaction):
               </h2>
               <p className="text-stone-600 text-sm sm:text-base">Real-time output from Rosie.py</p>
             </div>
-
             <div className="bg-white/90 backdrop-blur-sm rounded-lg border border-stone-200 overflow-hidden shadow-2xl">
               <div className="bg-stone-200 px-3 sm:px-4 py-2 flex items-center space-x-2 border-b border-stone-300">
                 <div className="w-2 sm:w-3 h-2 sm:h-3 rounded-full bg-red-500"></div>
@@ -601,7 +526,6 @@ def detect_threats(self, transaction):
                 <div className="w-2 sm:w-3 h-2 sm:h-3 rounded-full bg-green-500"></div>
                 <span className="text-stone-600 text-[10px] sm:text-sm ml-3 sm:ml-4">bash - rosie.py</span>
               </div>
-              
               <div ref={terminalRef} className="p-3 sm:p-6 font-mono text-[10px] sm:text-xs leading-relaxed overflow-y-auto h-48 sm:h-80 lg:h-96">
                 <div className="space-y-1">
                   {terminalLines.map((line, index) => (
@@ -612,7 +536,6 @@ def detect_threats(self, transaction):
                 </div>
               </div>
             </div>
-
             <div className="text-center mt-6 sm:mt-8 px-4">
               <p className="text-stone-500 text-xs sm:text-sm">
                 Rosie analyzes thousands of data points per second, making split-second decisions based on pattern recognition and market sentiment.
@@ -621,7 +544,6 @@ def detect_threats(self, transaction):
           </div>
         </section>
 
-        {/* Legacy Section */}
         <section id="legacy" className="min-h-screen flex items-center justify-center py-16 sm:py-20 px-4 sm:px-6 bg-gradient-to-b from-stone-800 to-stone-900">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl sm:text-5xl font-bold mb-4 sm:mb-6">
@@ -630,7 +552,6 @@ def detect_threats(self, transaction):
               </span>
             </h2>
             <div className="w-20 sm:w-24 h-1 bg-gradient-to-r from-amber-500 to-orange-500 mx-auto mb-8 sm:mb-12" />
-
             <div className="relative mb-6 sm:mb-8">
               <div className="absolute inset-0 bg-gradient-to-r from-amber-300/30 to-orange-300/30 blur-3xl" />
               <Image 
@@ -641,19 +562,16 @@ def detect_threats(self, transaction):
                 className="mx-auto rounded-full border-4 border-amber-600/50 relative z-10 sm:w-[200px] sm:h-[200px]"
               />
             </div>
-
             <div className="max-w-3xl mx-auto space-y-4 sm:space-y-6 px-4">
               <p className="text-lg sm:text-xl text-stone-300 leading-relaxed">
                 Rosie was my rescue dog who saw through everything with unflinching clarity. 
                 No pretense, no hesitation — just pure presence and instinct.
               </p>
-              
               <p className="text-base sm:text-lg text-stone-400 leading-relaxed">
                 She taught me to be direct, to trust instincts, and to stay endlessly curious. 
                 I built Rosie AI to operate with the same principles: to learn from chaos, 
                 act with conviction, and evolve relentlessly.
               </p>
-
               <blockquote className="text-xl sm:text-2xl font-light italic text-amber-500 pt-6 sm:pt-8">
                 In memory of a soul who taught me that true intelligence 
                 comes from understanding, not just processing.
@@ -662,7 +580,6 @@ def detect_threats(self, transaction):
           </div>
         </section>
 
-        {/* employees */}
         <section id="leadership" className="min-h-screen py-16 sm:py-20 px-4 sm:px-6 bg-gradient-to-b from-amber-50/50 to-stone-50">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12 sm:mb-16">
@@ -673,9 +590,7 @@ def detect_threats(self, transaction):
               </h2>
               <div className="w-20 sm:w-24 h-1 bg-gradient-to-r from-amber-600 to-orange-500 mx-auto" />
             </div>
-
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
-              {/* Brian - Founder */}
               <div className="group">
                 <div className="bg-gradient-to-br from-white to-amber-50 p-6 sm:p-8 rounded-2xl border border-amber-200 hover:border-amber-400 transition-all duration-300 transform hover:-translate-y-2 shadow-lg hover:shadow-xl">
                   <div className="flex items-start flex-col sm:flex-row sm:space-x-4 lg:space-x-6 mb-4 sm:mb-6">
@@ -702,7 +617,6 @@ def detect_threats(self, transaction):
                       </div>
                     </div>
                   </div>
-                  
                   <div className="space-y-3 sm:space-y-4">
                     <div>
                       <h4 className="font-semibold text-amber-700 mb-1 sm:mb-2 text-sm sm:text-base">Education</h4>
@@ -711,7 +625,6 @@ def detect_threats(self, transaction):
                         <li>• Fordham — Econometrics & Quant Economics</li>
                       </ul>
                     </div>
-                    
                     <div>
                       <h4 className="font-semibold text-amber-700 mb-1 sm:mb-2 text-sm sm:text-base">Background</h4>
                       <ul className="text-xs sm:text-sm text-stone-600 space-y-1">
@@ -720,7 +633,6 @@ def detect_threats(self, transaction):
                         <li>• AI + market data + blockchain chaos</li>
                       </ul>
                     </div>
-
                     <p className="text-stone-700 text-xs sm:text-sm italic pt-2 border-t border-amber-100">
                       I built Rosie to cope with my grief. It started as a stock picker RPG on Notepad+, to a fully
                       autonomous live agent that identifies patterns both malicious and prosperous
@@ -728,8 +640,6 @@ def detect_threats(self, transaction):
                   </div>
                 </div>
               </div>
-
-              {/* Cody - Chief Morale Officer */}
               <div className="group">
                 <div className="bg-gradient-to-br from-white to-orange-50 p-6 sm:p-8 rounded-2xl border border-orange-200 hover:border-orange-400 transition-all duration-300 transform hover:-translate-y-2 shadow-lg hover:shadow-xl">
                   <div className="flex items-start flex-col sm:flex-row sm:space-x-4 lg:space-x-6 mb-4 sm:mb-6">
@@ -746,7 +656,6 @@ def detect_threats(self, transaction):
                       <p className="text-xs sm:text-sm text-stone-500 mt-1 sm:mt-2">Good Boy • Debug Assistant</p>
                     </div>
                   </div>
-                  
                   <div className="space-y-3 sm:space-y-4">
                     <div>
                       <h4 className="font-semibold text-orange-700 mb-1 sm:mb-2 text-sm sm:text-base">Core Competencies</h4>
@@ -757,7 +666,6 @@ def detect_threats(self, transaction):
                         <li>• Maintaining wellness standards</li>
                       </ul>
                     </div>
-                    
                     <div>
                       <h4 className="font-semibold text-orange-700 mb-1 sm:mb-2 text-sm sm:text-base">Daily Responsibilities</h4>
                       <p className="text-xs sm:text-sm text-stone-600">
@@ -765,7 +673,6 @@ def detect_threats(self, transaction):
                         provides instant stress relief, and maintains office security
                       </p>
                     </div>
-
                     <p className="text-stone-700 text-xs sm:text-sm italic pt-2 border-t border-orange-100">
                       &quot;Woof! (Translation: Every successful deployment needs a 
                       tail-wagging celebration.)&quot;
@@ -777,10 +684,8 @@ def detect_threats(self, transaction):
           </div>
         </section>
 
-        {/* Latest Blog Widget Section */}
         <section className="py-16 sm:py-20 px-4 sm:px-6 bg-gradient-to-b from-amber-50 to-stone-100">
           <div className="max-w-6xl mx-auto">
-            {/* Section Header */}
             <div className="text-center mb-12">
               <h2 className="text-3xl sm:text-4xl font-bold mb-4">
                 <span className="bg-gradient-to-r from-amber-700 to-orange-600 text-transparent bg-clip-text">
@@ -790,55 +695,11 @@ def detect_threats(self, transaction):
               <p className="text-stone-600 text-lg">Fresh insights from the blockchain jungle</p>
             </div>
 
-            {/* Loading State */}
-            {blogLoading && (
-              <div className="text-center">
-                <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-amber-600 border-t-transparent mb-4"></div>
-                <p className="text-stone-600">Fetching latest insights...</p>
-              </div>
-            )}
-
-            {/* No Posts State */}
-            {!blogLoading && !latestPost && (
-              <div className="bg-white rounded-2xl shadow-xl overflow-hidden p-12 text-center">
-                <div className="mb-6">
-                  <span className="text-6xl">🦍</span>
-                </div>
-                <h3 className="text-2xl font-bold text-stone-800 mb-4">
-                  Rosie&apos;s Diary is Empty... For Now
-                </h3>
-                <p className="text-stone-600 mb-8 max-w-md mx-auto">
-                  Rosie is still warming up her trading algorithms. Check back soon for savage market insights and trading wisdom!
-                </p>
-                <Link 
-                  href="/blog"
-                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-amber-600 to-orange-600 text-white font-semibold rounded-lg hover:from-amber-700 hover:to-orange-700 transition-all duration-300 shadow-lg hover:shadow-xl"
-                >
-                  Visit the Blog
-                  <FaArrowRight className="ml-2" />
-                </Link>
-                
-                {/* Debug Info (remove in production) */}
-                <div className="mt-8 p-4 bg-stone-100 rounded-lg text-left text-xs text-stone-600">
-                  <p className="font-semibold mb-2">Debug Info:</p>
-                  <p>• Sanity Project ID: {process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ? '✓ Set' : '✗ Not Set'}</p>
-                  <p>• Sanity Dataset: {process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'}</p>
-                  <p>• Blog Loading: {blogLoading ? 'true' : 'false'}</p>
-                  <p>• Latest Post: {latestPost ? '✓ Found' : '✗ Not Found'}</p>
-                </div>
-              </div>
-            )}
-
-            {/* Latest Post Card */}
             {!blogLoading && latestPost && (
               <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-                {/* Mood Banner */}
                 <div className={`h-3 bg-gradient-to-r ${moodColors[latestPost.mood] || moodColors['full_savage']}`} />
-                
                 <div className="grid md:grid-cols-2 gap-8 p-8">
-                  {/* Content Side */}
                   <div className="space-y-4">
-                    {/* Mood & Date */}
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
                         <span className="text-3xl">{moodEmojis[latestPost.mood] || '🦍'}</span>
@@ -851,36 +712,15 @@ def detect_threats(self, transaction):
                         {new Date(latestPost.date).toLocaleDateString()}
                       </span>
                     </div>
-
-                    {/* Title */}
                     <h3 className="text-2xl sm:text-3xl font-bold text-stone-800">
                       {latestPost.title}
                     </h3>
-
-                    {/* Excerpt */}
                     <p className="text-stone-600 leading-relaxed">
                       {latestPost.excerpt}
                     </p>
-
-                    {/* Metrics */}
-                    <div className="flex items-center space-x-6 text-sm">
-                      <span className="flex items-center text-stone-600">
-                        <FaChartLine className="mr-2 text-amber-600" />
-                        <strong>{latestPost.tradingMetrics?.trades || 0}</strong> trades
-                      </span>
-                      <span className="flex items-center text-stone-600">
-                        <FaBrain className="mr-2 text-purple-600" />
-                        Level <strong>{latestPost.tradingMetrics?.level || 1}</strong>
-                      </span>
-                      <span className="flex items-center text-stone-600">
-                        ELO <strong>{latestPost.tradingMetrics?.elo || 1200}</strong>
-                      </span>
-                    </div>
-
-                    {/* Action Buttons */}
                     <div className="flex flex-wrap gap-4 pt-4">
                       <Link 
-                        href={`/blog/${latestPost.slug || latestPost._id}`}
+                        href={`/blog/${latestPost.slug}`}
                         className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-amber-600 to-orange-600 text-white font-semibold rounded-lg hover:from-amber-700 hover:to-orange-700 transition-all duration-300 shadow-lg hover:shadow-xl"
                       >
                         Read Full Entry
@@ -894,10 +734,7 @@ def detect_threats(self, transaction):
                       </Link>
                     </div>
                   </div>
-
-                  {/* Visual Side */}
                   <div className="space-y-4">
-                    {/* Stats Cards */}
                     <div className="grid grid-cols-2 gap-4">
                       <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-lg p-4 border border-amber-200">
                         <div className="text-2xl font-bold text-amber-700">
@@ -912,8 +749,6 @@ def detect_threats(self, transaction):
                         <div className="text-sm text-stone-600">Session P&L</div>
                       </div>
                     </div>
-
-                    {/* Feature Callout */}
                     <div className="bg-stone-100 rounded-lg p-6 text-center">
                       <p className="text-stone-700 font-medium mb-3">
                         🧠 Rosie&apos;s brain analyzed
@@ -929,26 +764,9 @@ def detect_threats(self, transaction):
                 </div>
               </div>
             )}
-
-            {/* Bottom CTA - Always Show */}
-            {!blogLoading && (
-              <div className="text-center mt-8">
-                <p className="text-stone-600 mb-4">
-                  {latestPost ? 'Follow Rosie&apos;s journey through the crypto markets' : 'Stay tuned for market insights'}
-                </p>
-                <Link 
-                  href="/blog"
-                  className="inline-flex items-center text-amber-600 hover:text-amber-700 font-semibold transition-colors"
-                >
-                  {latestPost ? 'Explore All Diary Entries' : 'Check Out the Blog'}
-                  <FaArrowRight className="ml-2" />
-                </Link>
-              </div>
-            )}
           </div>
         </section>
 
-        {/* Footer */}
         <footer className="bg-stone-900 border-t border-stone-800 py-8 sm:py-12 px-4 sm:px-6">
           <div className="max-w-4xl mx-auto text-center">
             <div className="mb-6 sm:mb-8">
@@ -960,7 +778,6 @@ def detect_threats(self, transaction):
                 className="mx-auto opacity-60 sm:w-[60px] sm:h-[60px]"
               />
             </div>
-            
             <div className="flex justify-center space-x-4 sm:space-x-6 mb-6 sm:mb-8">
               <a href="https://telegram.com/Xarbin" className="text-stone-500 hover:text-amber-500 transition-colors p-1">
                 <FaTelegram className="text-xl sm:text-2xl" />
@@ -972,11 +789,9 @@ def detect_threats(self, transaction):
                 <FaGithub className="text-xl sm:text-2xl" />
               </a>
             </div>
-
             <p className="text-stone-400 text-xs sm:text-sm mb-3 sm:mb-4">
               © 2025 Rosie Learning Systems LLC. All rights reserved.
             </p>
-            
             <p className="text-stone-500 text-[10px] sm:text-xs tracking-wider">
               Built by my hatred of JavaScript and stubbornness to do it myself.
             </p>
@@ -988,42 +803,19 @@ def detect_threats(self, transaction):
         html {
           scroll-behavior: smooth;
         }
-        
         @keyframes fade-in {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
         }
-        
-        .animate-fade-in {
-          animation: fade-in 0.8s ease-out;
-        }
-        
-        .animate-fade-in-delay-1 {
-          animation: fade-in 0.8s ease-out 0.2s both;
-        }
-        
-        .animate-fade-in-delay-2 {
-          animation: fade-in 0.8s ease-out 0.4s both;
-        }
-        
-        .animate-fade-in-delay-3 {
-          animation: fade-in 0.8s ease-out 0.6s both;
-        }
-        
+        .animate-fade-in { animation: fade-in 0.8s ease-out; }
+        .animate-fade-in-delay-1 { animation: fade-in 0.8s ease-out 0.2s both; }
+        .animate-fade-in-delay-2 { animation: fade-in 0.8s ease-out 0.4s both; }
+        .animate-fade-in-delay-3 { animation: fade-in 0.8s ease-out 0.6s both; }
         @keyframes blink {
           0%, 50% { opacity: 1; }
           51%, 100% { opacity: 0; }
         }
-        
-        .animate-blink {
-          animation: blink 1s infinite;
-        }
+        .animate-blink { animation: blink 1s infinite; }
       `}</style>
     </div>
   )
