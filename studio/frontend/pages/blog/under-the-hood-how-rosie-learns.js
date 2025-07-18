@@ -303,7 +303,7 @@ export default function UnderTheHoodHowRosieLearns() {
 
               {/* Share Section */}
               <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-purple-100">
-                <h3 className="text-center font-bold text-xl text-purple-900 mb-4">Share Rosie's Wisdom</h3>
+                <h3 className="text-center font-bold text-xl text-purple-900 mb-4">Share Rosie&apos;s Wisdom</h3>
                 <div className="flex justify-center space-x-6">
                   <a 
                     href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(postUrl)}`} 
