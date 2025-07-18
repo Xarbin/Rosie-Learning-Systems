@@ -42,4 +42,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/b
 
 git add .
 git commit -m "misc changes"
-git pushd 
+git push
