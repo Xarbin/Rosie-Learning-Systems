@@ -1,7 +1,8 @@
-import Head from 'next/head'
+﻿import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState, useRef } from 'react'
+import { useRouter } from 'next/router'
 import { FaUniversity, FaCode, FaLinkedin, FaGithub, FaEnvelope, FaTelegram, FaTwitter, FaCalendar, FaChartLine, FaBrain, FaArrowRight } from 'react-icons/fa'
 import { SiSolidity, SiPython, SiJavascript, SiReact } from 'react-icons/si'
 import { MdSecurity, MdAnalytics, MdMonitor, MdWarning } from 'react-icons/md'
@@ -31,15 +32,67 @@ export default function Home() {
   const [terminalLines, setTerminalLines] = useState([])
   const [activeProductTab, setActiveProductTab] = useState('analysis')
   const [expandedFeature, setExpandedFeature] = useState(null)
+  const [viewerKey, setViewerKey] = useState('')
+  const [viewerKeyInput, setViewerKeyInput] = useState('')
+  const [viewerKeyError, setViewerKeyError] = useState('')
+  const [isKeyReady, setIsKeyReady] = useState(false)
+  const [showViewerKey, setShowViewerKey] = useState(false)
   
   // We'll use our static post data here
   const latestPost = latestPostStatic;
-  const blogLoading = false; 
+  const blogLoading = false;
+
+  const router = useRouter()
+  const hasViewerKey = viewerKey.trim().length > 0
+  const maskedViewerKey = hasViewerKey ? viewerKey.replace(/.(?=.{4})/g, '*') : ''
 
   const terminalRef = useRef(null)
   const expandedRef = useRef(null)
 
   // ... (keep all the existing useEffects and functions like generateTerminalSequence, scrollToSection, etc.)
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const storedKey = localStorage.getItem('hunterViewerKey') || ''
+    setViewerKey(storedKey)
+    setViewerKeyInput('')
+    setShowViewerKey(false)
+    setIsKeyReady(true)
+  }, [])
+
+  const handleViewerKeyChange = (event) => {
+    if (viewerKeyError) {
+      setViewerKeyError('')
+    }
+    setViewerKeyInput(event.target.value)
+  }
+
+  const handleViewerKeySubmit = (event) => {
+    event.preventDefault()
+    const trimmed = viewerKeyInput.trim()
+    if (!trimmed) {
+      setViewerKeyError('Enter your viewer key to continue.')
+      return
+    }
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('hunterViewerKey', trimmed)
+    }
+    setViewerKey(trimmed)
+    setViewerKeyInput('')
+    setShowViewerKey(false)
+    setViewerKeyError('')
+    router.push('/hunter')
+  }
+
+  const handleViewerKeyReset = () => {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('hunterViewerKey')
+    }
+    setViewerKey('')
+    setViewerKeyInput('')
+    setViewerKeyError('')
+    setShowViewerKey(false)
+  }
+
   // Terminal simulation data
   const generateTerminalSequence = () => {
     const tokens = ['PEPE', 'SHIB', 'DOGE', 'FLOKI', 'ELON', 'MOON', 'ROCKET', 'WAGMI', 'GME', 'APE']
@@ -51,17 +104,17 @@ export default function Home() {
 
     return [
       { text: '====================================', color: 'text-green-600', delay: 0 },
-      { text: `💖 Rosie Level ${Math.floor(Math.random() * 3) + 5} ⭐`, color: 'text-green-600', delay: 50 },
-      { text: `📊 Trades: ${Math.floor(Math.random() * 10) + 15} | Win: ${(Math.random() * 20 + 50).toFixed(1)}%`, color: 'text-green-600', delay: 50 },
+      { text: `?? Rosie Level ${Math.floor(Math.random() * 3) + 5} ?`, color: 'text-green-600', delay: 50 },
+      { text: `?? Trades: ${Math.floor(Math.random() * 10) + 15} | Win: ${(Math.random() * 20 + 50).toFixed(1)}%`, color: 'text-green-600', delay: 50 },
       { text: '====================================', color: 'text-green-600', delay: 50 },
-      { text: `[INFO] - 🔍 Running pre-flight checks...`, color: 'text-stone-700', delay: 100 },
-      { text: `[INFO] - 📋 Fetching context for ${randomToken}...`, color: 'text-stone-700', delay: 200 },
+      { text: `[INFO] - ?? Running pre-flight checks...`, color: 'text-stone-700', delay: 100 },
+      { text: `[INFO] - ?? Fetching context for ${randomToken}...`, color: 'text-stone-700', delay: 200 },
       { text: `[INFO] - Found pair ${randomAddress.substr(0, 8)}...`, color: 'text-stone-700', delay: 300 },
       { text: `[WARNING] - LP: ${randomLockPercent}% locked.`, color: 'text-orange-600', delay: 400 },
-      { text: `[INFO] - 📄 PAPER trading session...`, color: 'text-stone-700', delay: 150 },
+      { text: `[INFO] - ?? PAPER trading session...`, color: 'text-stone-700', delay: 150 },
       { text: `[INFO] - Budget: $250.00`, color: 'text-stone-700', delay: 100 },
       { text: `[INFO] - COMPLETE. PnL: ${randomPnL}`, color: parseFloat(randomPnL) > 0 ? 'text-green-600' : 'text-red-600', delay: 50 },
-      { text: `[INFO] - Brain saved. 🧠`, color: 'text-green-600', delay: 200 },
+      { text: `[INFO] - Brain saved. ??`, color: 'text-green-600', delay: 200 },
     ]
   }
 
@@ -233,11 +286,11 @@ def detect_threats(self, transaction):
   }
 
   const moodEmojis = {
-    'banana_zone': '🍌',
-    'full_savage': '🦍',
-    'laser_focus': '🎯',
-    'revenge_mode': '😤',
-    'zen_monkey': '🧘'
+    'banana_zone': '??',
+    'full_savage': '??',
+    'laser_focus': '??',
+    'revenge_mode': '??',
+    'zen_monkey': '??'
   }
 
   const moodColors = {
@@ -356,6 +409,77 @@ def detect_threats(self, transaction):
                   </svg>
                   View All Blog Posts
                 </Link>
+                <button
+                  type="button"
+                  onClick={() => scrollToSection('viewer-key-card')}
+                  className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                >
+                  Hunter Dashboard
+                </button>
+              </div>
+            </div>
+            <div id="viewer-key-card" className="mt-10 w-full max-w-md mx-auto rounded-2xl border border-amber-200 bg-white/90 p-6 shadow-lg backdrop-blur-sm">
+              <div className="flex items-center gap-3">
+                <Image src="/Rosie.png" alt="Rosie emblem" width={48} height={48} className="rounded-full shadow-md" />
+                <h2 className="text-lg font-semibold text-stone-800">Hunter Viewer Key</h2>
+              </div>
+              <p className="mt-3 text-sm text-stone-500">
+                Store your viewer key locally to unlock the live hunter console.
+              </p>
+              <form onSubmit={handleViewerKeySubmit} className="mt-4 space-y-3">
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wide text-stone-500" htmlFor="viewer-key-input">
+                    Viewer Key
+                  </label>
+                  <div className="relative mt-1">
+                    <input
+                      id="viewer-key-input"
+                      type={showViewerKey ? 'text' : 'password'}
+                      value={viewerKeyInput}
+                      onChange={handleViewerKeyChange}
+                      placeholder="alpha-2025"
+                      className="w-full rounded-lg border border-stone-300 bg-white/95 px-3 py-2 pr-16 text-sm text-stone-800 shadow-inner focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-200"
+                      disabled={!isKeyReady}
+                      autoComplete="off"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowViewerKey(prev => !prev)}
+                      className="absolute inset-y-0 right-3 flex items-center text-xs font-semibold text-amber-600 hover:text-amber-700"
+                    >
+                      {showViewerKey ? 'Hide' : 'Show'}
+                    </button>
+                  </div>
+                </div>
+                {viewerKeyError && (
+                  <p className="text-sm text-red-600">{viewerKeyError}</p>
+                )}
+                <div className="flex flex-col gap-3 pt-2 sm:flex-row">
+                  <button
+                    type="submit"
+                    className="inline-flex w-full justify-center rounded-lg bg-gradient-to-r from-amber-600 to-orange-600 px-4 py-2 text-sm font-semibold text-white shadow-lg transition hover:from-amber-700 hover:to-orange-700 disabled:opacity-60"
+                    disabled={!isKeyReady}
+                  >
+                    Launch Hunter Dashboard
+                  </button>
+                  {hasViewerKey && (
+                    <button
+                      type="button"
+                      onClick={handleViewerKeyReset}
+                      className="inline-flex w-full justify-center rounded-lg border border-stone-300 px-4 py-2 text-sm font-semibold text-stone-600 transition hover:border-amber-500 hover:text-amber-600"
+                    >
+                      Clear Saved Key
+                    </button>
+                  )}
+                </div>
+              </form>
+              <div className="mt-3 rounded-lg bg-stone-100 px-3 py-2 text-xs text-stone-500">
+                <span className="font-semibold text-stone-700">Status:</span>{' '}
+                {hasViewerKey ? (
+                  <>Key saved locally</>
+                ) : (
+                  <>Awaiting key entry</>
+                )}
               </div>
             </div>
           </div>
@@ -421,7 +545,7 @@ def detect_threats(self, transaction):
                       <ul className="space-y-2">
                         {productFeatures[activeProductTab].features.map((feature, index) => (
                           <li key={index} className="flex items-start space-x-2">
-                            <span className="text-amber-600 mt-1">•</span>
+                            <span className="text-amber-600 mt-1">â€¢</span>
                             <span className="text-stone-300 text-sm">{feature}</span>
                           </li>
                         ))}
@@ -565,7 +689,7 @@ def detect_threats(self, transaction):
             <div className="max-w-3xl mx-auto space-y-4 sm:space-y-6 px-4">
               <p className="text-lg sm:text-xl text-stone-300 leading-relaxed">
                 Rosie was my rescue dog who saw through everything with unflinching clarity. 
-                No pretense, no hesitation — just pure presence and instinct.
+                No pretense, no hesitation â€” just pure presence and instinct.
               </p>
               <p className="text-base sm:text-lg text-stone-400 leading-relaxed">
                 She taught me to be direct, to trust instincts, and to stay endlessly curious. 
@@ -621,16 +745,16 @@ def detect_threats(self, transaction):
                     <div>
                       <h4 className="font-semibold text-amber-700 mb-1 sm:mb-2 text-sm sm:text-base">Education</h4>
                       <ul className="text-xs sm:text-sm text-stone-600 space-y-1">
-                        <li>• Seton Hall — Intl Relations & Diplomacy</li>
-                        <li>• Fordham — Econometrics & Quant Economics</li>
+                        <li>â€¢ Seton Hall â€” Intl Relations & Diplomacy</li>
+                        <li>â€¢ Fordham â€” Econometrics & Quant Economics</li>
                       </ul>
                     </div>
                     <div>
                       <h4 className="font-semibold text-amber-700 mb-1 sm:mb-2 text-sm sm:text-base">Background</h4>
                       <ul className="text-xs sm:text-sm text-stone-600 space-y-1">
-                        <li>• US Army 11B Infantry OEF/OIR </li>
-                        <li>• VB → Python → Web3 → JavaScript</li>
-                        <li>• AI + market data + blockchain chaos</li>
+                        <li>â€¢ US Army 11B Infantry OEF/OIR </li>
+                        <li>â€¢ VB ? Python ? Web3 ? JavaScript</li>
+                        <li>â€¢ AI + market data + blockchain chaos</li>
                       </ul>
                     </div>
                     <p className="text-stone-700 text-xs sm:text-sm italic pt-2 border-t border-amber-100">
@@ -653,17 +777,17 @@ def detect_threats(self, transaction):
                     <div className="flex-1">
                       <h3 className="text-lg sm:text-2xl font-bold text-stone-800">Cody</h3>
                       <p className="text-orange-600 font-medium text-sm sm:text-base">Chief Morale Officer</p>
-                      <p className="text-xs sm:text-sm text-stone-500 mt-1 sm:mt-2">Good Boy • Debug Assistant</p>
+                      <p className="text-xs sm:text-sm text-stone-500 mt-1 sm:mt-2">Good Boy â€¢ Debug Assistant</p>
                     </div>
                   </div>
                   <div className="space-y-3 sm:space-y-4">
                     <div>
                       <h4 className="font-semibold text-orange-700 mb-1 sm:mb-2 text-sm sm:text-base">Core Competencies</h4>
                       <ul className="text-xs sm:text-sm text-stone-600 space-y-1">
-                        <li>• Emotional support during deployments</li>
-                        <li>• Strategic keyboard interruptions</li>
-                        <li>• API failure detection (barking)</li>
-                        <li>• Maintaining wellness standards</li>
+                        <li>â€¢ Emotional support during deployments</li>
+                        <li>â€¢ Strategic keyboard interruptions</li>
+                        <li>â€¢ API failure detection (barking)</li>
+                        <li>â€¢ Maintaining wellness standards</li>
                       </ul>
                     </div>
                     <div>
@@ -702,7 +826,7 @@ def detect_threats(self, transaction):
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
-                        <span className="text-3xl">{moodEmojis[latestPost.mood] || '🦍'}</span>
+                        <span className="text-3xl">{moodEmojis[latestPost.mood] || '??'}</span>
                         <span className="text-sm font-medium text-stone-600">
                           {latestPost.mood?.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
                         </span>
@@ -751,7 +875,7 @@ def detect_threats(self, transaction):
                     </div>
                     <div className="bg-stone-100 rounded-lg p-6 text-center">
                       <p className="text-stone-700 font-medium mb-3">
-                        🧠 Rosie&apos;s brain analyzed
+                        ?? Rosie&apos;s brain analyzed
                       </p>
                       <div className="text-3xl font-bold text-transparent bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text">
                         {latestPost.tradingMetrics?.trades || 0} patterns
@@ -790,7 +914,7 @@ def detect_threats(self, transaction):
               </a>
             </div>
             <p className="text-stone-400 text-xs sm:text-sm mb-3 sm:mb-4">
-              © 2025 Rosie Learning Systems LLC. All rights reserved.
+              Â© 2025 Rosie Learning Systems LLC. All rights reserved.
             </p>
             <p className="text-stone-500 text-[10px] sm:text-xs tracking-wider">
               Built by my hatred of JavaScript and stubbornness to do it myself.
@@ -820,3 +944,8 @@ def detect_threats(self, transaction):
     </div>
   )
 }
+
+
+
+
+
