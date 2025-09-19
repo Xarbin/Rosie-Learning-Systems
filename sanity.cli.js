@@ -1,4 +1,5 @@
-﻿import {defineCliConfig} from 'sanity/cli'
+﻿// config shim
+import {defineCliConfig} from 'sanity/cli'
 
 export default defineCliConfig({
   api: {
